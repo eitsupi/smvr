@@ -45,6 +45,10 @@ sort(v)
 # Compare versions
 smvr(1, 0, 0) < smvr(1, 0, 1)
 
+# Cast from / to the `numeric_version` class
+as_smvr(numeric_version(c("4", "4.5.1")))
+vctrs::vec_cast(smvr(1, 2, 3), numeric_version(character()))
+
 # Works with tibble data frame and dplyr
 tibble::tibble(version = v) |>
   dplyr::arrange(version) |>
