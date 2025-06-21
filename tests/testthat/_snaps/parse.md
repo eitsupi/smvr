@@ -1,4 +1,4 @@
-# parse_smvr parses valid semver strings
+# parse_semver parses valid semver strings
 
     Code
       x
@@ -15,10 +15,10 @@
       <pre_release_ids[4]>
       [1] alpha.1.2  beta.2.3.4            <NA>      
 
-# parse_smvr rejects invalid semver strings
+# parse_semver rejects invalid semver strings
 
     Code
-      parse_smvr("")
+      parse_semver("")
     Condition
       Warning:
       ! Cannot parse '' as semantic version, setting to `NA`.
@@ -29,7 +29,7 @@
 ---
 
     Code
-      parse_smvr("01.2.3")
+      parse_semver("01.2.3")
     Condition
       Warning:
       ! Cannot parse '01.2.3' as semantic version, setting to `NA`.
@@ -40,7 +40,7 @@
 ---
 
     Code
-      parse_smvr("1.02.3")
+      parse_semver("1.02.3")
     Condition
       Warning:
       ! Cannot parse '1.02.3' as semantic version, setting to `NA`.
@@ -51,7 +51,7 @@
 ---
 
     Code
-      parse_smvr("1.2.03")
+      parse_semver("1.2.03")
     Condition
       Warning:
       ! Cannot parse '1.2.03' as semantic version, setting to `NA`.
@@ -62,7 +62,7 @@
 # Only supports up to 5 pre-release identifiers
 
     Code
-      parse_smvr("1.2.3-alpha.1.2.3.4")
+      parse_semver("1.2.3-alpha.1.2.3.4")
     Output
       <smvr[1]>
       [1] 1.2.3-alpha.1.2.3.4
@@ -78,9 +78,9 @@
 ---
 
     Code
-      parse_smvr("1.2.3-alpha.1.2.3.4.5")
+      parse_semver("1.2.3-alpha.1.2.3.4.5")
     Condition
-      Error in `parse_smvr()`:
+      Error in `parse_semver()`:
       ! Unsupported pre-release identifiers in '1.2.3-alpha.1.2.3.4.5'.
       ! Only up to 5 pre-release identifiers are supported, got 6.
 

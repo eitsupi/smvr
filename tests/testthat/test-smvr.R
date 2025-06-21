@@ -22,10 +22,10 @@ test_that("smvr ordering", {
     "1.0.0-a",
     "1.0.0-a.1"
   ) |>
-    parse_smvr()
+    parse_semver()
   expect_identical(
     vec_sort(smvr_vec),
-    parse_smvr(c(
+    parse_semver(c(
       "1.0.0-a",
       "1.0.0-a.1",
       "1.0.0+foo",
@@ -37,37 +37,37 @@ test_that("smvr ordering", {
 })
 
 test_that("comparison", {
-  smvr_vec <- parse_smvr(c("1.0.0", "1.0.0+build", "1.0.0-alpha.2", "2.0.0"))
+  smvr_vec <- parse_semver(c("1.0.0", "1.0.0+build", "1.0.0-alpha.2", "2.0.0"))
 
   # pre-release identifiers
   expect_identical(
-    smvr_vec > parse_smvr("1.0.0-alpha"),
+    smvr_vec > parse_semver("1.0.0-alpha"),
     c(TRUE, TRUE, TRUE, TRUE)
   )
   expect_identical(
-    smvr_vec > parse_smvr("1.0.0-alpha.10"),
+    smvr_vec > parse_semver("1.0.0-alpha.10"),
     c(TRUE, TRUE, FALSE, TRUE)
   )
   expect_identical(
-    smvr_vec > parse_smvr("1.0.0-beta.1"),
+    smvr_vec > parse_semver("1.0.0-beta.1"),
     c(TRUE, TRUE, FALSE, TRUE)
   )
 
   # build is ignored when comparing except for `==` and `!=`
   expect_identical(
-    smvr_vec == parse_smvr("1.0.0"),
+    smvr_vec == parse_semver("1.0.0"),
     c(TRUE, FALSE, FALSE, FALSE)
   )
   expect_identical(
-    smvr_vec != parse_smvr("1.0.0"),
+    smvr_vec != parse_semver("1.0.0"),
     c(FALSE, TRUE, TRUE, TRUE)
   )
   expect_identical(
-    smvr_vec <= parse_smvr("1.0.0+foobar"),
+    smvr_vec <= parse_semver("1.0.0+foobar"),
     c(TRUE, TRUE, TRUE, FALSE)
   )
   expect_identical(
-    smvr_vec >= parse_smvr("1.0.0+foobar"),
+    smvr_vec >= parse_semver("1.0.0+foobar"),
     c(TRUE, TRUE, FALSE, TRUE)
   )
 })

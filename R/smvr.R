@@ -156,7 +156,7 @@ vec_cast.character.smvr <- function(x, to, ...) {
 
 #' @export
 vec_cast.smvr.character <- function(x, to, ...) {
-  parse_smvr(x)
+  parse_semver(x)
 }
 
 #' @export

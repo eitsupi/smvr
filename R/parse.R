@@ -1,11 +1,11 @@
-#' parse_smvr: Parse semantic version strings into smvr objects
+#' parse_semver: Parse semantic version strings into smvr objects
 #'
 #' @description
 #' Parses a character vector of semantic version strings into smvr objects, following the official semver.org regular expression.
 #' @param x Character vector of semantic version strings
 #' @return An smvr vector
 #' @export
-parse_smvr <- function(x) {
+parse_semver <- function(x) {
   pattern <- paste0(
     "^",
     "(0|[1-9][0-9]*)\\.", # major
