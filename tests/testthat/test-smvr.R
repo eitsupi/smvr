@@ -91,3 +91,29 @@ test_that("cast from/to character", {
     )
   )
 })
+
+test_that("cast from/to numeric_version", {
+  expect_identical(
+    vec_cast(parse_semver(c("1.2.3", NA)), numeric_version(character())),
+    numeric_version(c("1.2.3", NA), strict = FALSE)
+  )
+  expect_snapshot(
+    vec_cast(
+      parse_semver(c("1.0.0", "1.0.0+build", "1.0.0-a.1", "1.0.0-a.2")),
+      numeric_version(character())
+    ),
+    error = TRUE
+  )
+
+  expect_identical(
+    vec_cast(numeric_version(c("1", "1.2", "1.2.3", NA)), smvr()),
+    smvr(c(1L, 1L, 1L, NA), c(0L, 2L, 2L, NA), c(0L, 0L, 3L, NA))
+  )
+  expect_snapshot(
+    vec_cast(
+      numeric_version(c(NA, "1.2.3", "1.2.3.4", "1.2.3.4-5"), strict = FALSE),
+      smvr()
+    ),
+    error = TRUE
+  )
+})

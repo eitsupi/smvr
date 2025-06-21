@@ -38,3 +38,23 @@
       <smvr[5]>
       [1] 1.0.0         <NA>          1.0.0+build   1.0.0-alpha.1 <NA>         
 
+# cast from/to numeric_version
+
+    Code
+      vec_cast(parse_semver(c("1.0.0", "1.0.0+build", "1.0.0-a.1", "1.0.0-a.2")),
+      numeric_version(character()))
+    Condition
+      Error in `vec_cast.numeric_version.smvr()`:
+      ! Pre-release `smvr` cannot be cast to `numeric_version`.
+      x Problematic values: 1.0.0-a.1 and 1.0.0-a.2
+
+---
+
+    Code
+      vec_cast(numeric_version(c(NA, "1.2.3", "1.2.3.4", "1.2.3.4-5"), strict = FALSE),
+      smvr())
+    Condition
+      Error in `vec_cast.smvr.numeric_version()`:
+      ! Cannot cast `numeric_version` with more than 3 components to `smvr`.
+      x Problematic values: 1.2.3.4 and 1.2.3.4.5
+

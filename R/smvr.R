@@ -126,6 +126,15 @@ vec_ptype2.character.smvr <- function(x, y, ...) character()
 vec_ptype2.smvr.character <- function(x, y, ...) character()
 
 #' @export
+vec_ptype2.numeric_version.smvr <- function(x, y, ...) {
+  numeric_version(character())
+}
+#' @export
+vec_ptype2.smvr.numeric_version <- function(x, y, ...) {
+  numeric_version(character())
+}
+
+#' @export
 vec_cast.smvr.smvr <- function(x, to, ...) {
   version_core <- field(x, "version_core")
   smvr(
@@ -157,6 +166,42 @@ vec_cast.character.smvr <- function(x, to, ...) {
 #' @export
 vec_cast.smvr.character <- function(x, to, ...) {
   parse_semver(x)
+}
+
+#' @export
+vec_cast.numeric_version.smvr <- function(x, to, ...) {
+  if (any(is_pre_release(x), na.rm = TRUE)) {
+    cli::cli_abort(
+      c(
+        "Pre-release {.code smvr} cannot be cast to {.code numeric_version}.",
+        x = "Problematic values: {.val {x[is_pre_release(x)]}}"
+      )
+    )
+  }
+  add_build_metadata(x, "") |>
+    format() |>
+    as.numeric_version()
+}
+
+#' @export
+vec_cast.smvr.numeric_version <- function(x, to, ...) {
+  values <- unclass(x)
+  n_components <- values |>
+    map_int(length)
+  if (any(n_components > 3L)) {
+    cli::cli_abort(
+      c(
+        "Cannot cast {.code numeric_version} with more than 3 components to {.code smvr}.",
+        x = "Problematic values: {.val {x[n_components > 3L]}}"
+      )
+    )
+  }
+
+  values |>
+    map(\(v) {
+      if (length(v) == 0L) smvr(NA) else do.call(smvr, as.list(v))
+    }) |>
+    (\(x) vec_c(!!!x))()
 }
 
 #' @export
