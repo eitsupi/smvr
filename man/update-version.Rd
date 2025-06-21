@@ -56,7 +56,7 @@ the major, minor, and patch version numbers respectively.
 }
 }
 \examples{
-v <- parse_semver(c("0.9.0", "1.0.0-a.1", "1.0.0+1"))
+v <- parse_semver(c("0.9.9", "1.0.0-a.1", "1.1.0+1"))
 
 increment_major(v)
 increment_minor(v)
