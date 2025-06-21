@@ -208,8 +208,3 @@ vec_cast.smvr.numeric_version <- function(x, to, ...) {
 vec_proxy_compare.smvr <- function(x, ...) {
   vec_data(x)[, -3] # Build metadata is not used for ordering
 }
-
-#' @export
-vec_proxy_order.smvr <- function(x, ...) {
-  vec_data(x)[, -3] # Build metadata is not used for ordering
-}
