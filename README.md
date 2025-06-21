@@ -49,15 +49,18 @@ vctrs::vec_cast(smvr(1, 2, 3), numeric_version(character()))
 # Works with tibble data frame and dplyr
 tibble::tibble(version = v) |>
   dplyr::arrange(version) |>
-  dplyr::mutate(`>= 1.0.0` = version >= smvr(1))
-#> # A tibble: 5 × 2
-#>          version `>= 1.0.0`
-#>           <smvr> <lgl>     
-#> 1          0.9.0 FALSE     
-#> 2    1.0.0-alpha FALSE     
-#> 3  1.0.0-alpha.1 FALSE     
-#> 4          1.0.0 TRUE      
-#> 5 1.0.1+20250621 TRUE
+  dplyr::mutate(
+    `>= 1.0.0` = version >= smvr(1),
+    `pre-release` = is_pre_release(version),
+  )
+#> # A tibble: 5 × 3
+#>          version `>= 1.0.0` `pre-release`
+#>           <smvr> <lgl>      <lgl>        
+#> 1          0.9.0 FALSE      FALSE        
+#> 2    1.0.0-alpha FALSE      TRUE         
+#> 3  1.0.0-alpha.1 FALSE      TRUE         
+#> 4          1.0.0 TRUE       FALSE        
+#> 5 1.0.1+20250621 TRUE       FALSE
 ```
 
 ## Features

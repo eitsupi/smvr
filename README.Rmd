@@ -52,7 +52,10 @@ vctrs::vec_cast(smvr(1, 2, 3), numeric_version(character()))
 # Works with tibble data frame and dplyr
 tibble::tibble(version = v) |>
   dplyr::arrange(version) |>
-  dplyr::mutate(`>= 1.0.0` = version >= smvr(1))
+  dplyr::mutate(
+    `>= 1.0.0` = version >= smvr(1),
+    `pre-release` = is_pre_release(version),
+  )
 ```
 
 ## Features
