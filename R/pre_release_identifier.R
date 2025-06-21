@@ -19,7 +19,7 @@ pre_release_identifier <- function(x = character()) {
   # Determine type: numeric (no leading zero, all digits), else alphanumeric
   is_num <- all(is.na(x) | grepl("^[0-9]*$", x) & !grepl("^0[0-9]+$", x))
   identifier_type <- if (is_num) "numeric" else "alphanumeric"
-  vctrs::new_vctr(
+  new_vctr(
     x,
     identifier_type = identifier_type,
     class = "pre_release_identifier"

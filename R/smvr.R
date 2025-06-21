@@ -47,22 +47,22 @@ smvr <- function(
     )
   }
 
-  # Use vctrs::df_list to recycle and align lengths
-  version_core <- vctrs::df_list(
+  # Use df_list to recycle and align lengths
+  version_core <- df_list(
     major = major,
     minor = minor,
     patch = patch
   ) |>
     new_data_frame()
 
-  values <- vctrs::df_list(
+  values <- df_list(
     version_core = version_core,
     pre_release = pre_release,
     build = build
   ) |>
     new_data_frame()
 
-  out <- vctrs::new_rcrd(
+  out <- new_rcrd(
     fields = values,
     class = "smvr"
   )
@@ -75,8 +75,8 @@ smvr <- function(
 #' @export
 format.smvr <- function(x, ...) {
   core <- field(x, "version_core")
-  pre <- vctrs::field(x, "pre_release")
-  build <- vctrs::field(x, "build")
+  pre <- field(x, "pre_release")
+  build <- field(x, "build")
   pre_str <- format(pre)
   res <- sprintf(
     "%d.%d.%d",
@@ -109,8 +109,8 @@ vec_ptype_full.smvr <- function(x, ...) {
 vec_ptype2.smvr.smvr <- function(x, y, ...) {
   smvr(
     pre_release = vec_ptype2(
-      vctrs::field(x, "pre_release"),
-      vctrs::field(y, "pre_release")
+      field(x, "pre_release"),
+      field(y, "pre_release")
     )
   )
 }
@@ -127,7 +127,7 @@ vec_ptype2.smvr.character <- function(x, y, ...) character()
 
 #' @export
 vec_cast.smvr.smvr <- function(x, to, ...) {
-  version_core <- vctrs::field(x, "version_core")
+  version_core <- field(x, "version_core")
   smvr(
     major = version_core$major,
     minor = version_core$minor,

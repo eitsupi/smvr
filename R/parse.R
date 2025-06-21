@@ -57,7 +57,7 @@ parse_semver <- function(x) {
     major = major,
     minor = minor,
     patch = patch,
-    pre_release = vctrs::vec_c(!!!pre),
+    pre_release = vec_c(!!!pre),
     build = build
   )
 }
@@ -98,5 +98,5 @@ parse_pre_release_ids <- function(x) {
       pre[[i]] <- do.call(pre_release_ids, as.list(ids))
     }
   }
-  vctrs::vec_c(!!!pre)
+  vec_c(!!!pre)
 }

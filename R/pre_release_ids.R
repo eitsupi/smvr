@@ -20,14 +20,14 @@ pre_release_ids <- function(
     lapply(\(x) {
       vec_cast(x, pre_release_identifier())
     })
-  values <- vctrs::df_list(
+  values <- df_list(
     id1 = ids[[1]],
     id2 = ids[[2]],
     id3 = ids[[3]],
     id4 = ids[[4]],
     id5 = ids[[5]]
   ) |>
-    vctrs::new_data_frame()
+    new_data_frame()
   # For each row, check that after the first empty, all subsequent ids are also empty
   for (i in seq_len(nrow(values))) {
     row_ids <- values[i, ]
@@ -51,9 +51,9 @@ pre_release_ids <- function(
 
 #' @export
 format.pre_release_ids <- function(x, ...) {
-  ids <- format(vctrs::field(x, "id1"))
+  ids <- format(field(x, "id1"))
   for (i in 2:5) {
-    id <- format(vctrs::field(x, paste0("id", i)))
+    id <- format(field(x, paste0("id", i)))
     ids <- ifelse(
       !is.na(ids) & nzchar(ids) & !is.na(id) & nzchar(id),
       paste0(ids, ".", id),
