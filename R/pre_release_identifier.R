@@ -16,19 +16,35 @@ pre_release_identifier <- function(x = character()) {
       "Invalid pre-release identifier: only [0-9a-zA-Z-] allowed in each identifier."
     )
   }
-  # Determine type: numeric (no leading zero, all digits), else alphanumeric
-  is_num <- all(is.na(x) | grepl("^[0-9]*$", x) & !grepl("^0[0-9]+$", x))
-  identifier_type <- if (is_num) "numeric" else "alphanumeric"
-  new_vctr(
-    x,
-    identifier_type = identifier_type,
+
+  is_empty <- !nzchar(x)
+  is_num <- is.na(x) | is_empty | grepl("^[0-9]+$", x) & !grepl("^0[0-9]+", x)
+
+  alphanumeric_id <- x
+  numeric_id <- double(length(x))
+
+  # Numeric identifiers always have lower precedence than
+  # non-numeric identifiers
+  numeric_id[!is_num] <- Inf
+  numeric_id[is_num & !is_empty] <- as.numeric(x[is_num & !is_empty])
+  numeric_id[is_empty] <- -Inf
+
+  out <- new_rcrd(
+    list(
+      numeric = numeric_id,
+      alphanumeric = alphanumeric_id
+    ),
     class = "pre_release_identifier"
   )
+
+  # Fix NAs
+  out[!vec_detect_complete(vec_data(out))] <- NA
+  out
 }
 
 #' @export
 format.pre_release_identifier <- function(x, ...) {
-  vec_data(x)
+  field(x, "alphanumeric")
 }
 
 #' @export
@@ -37,23 +53,11 @@ vec_ptype2.pre_release_identifier.pre_release_identifier <- function(
   y,
   ...
 ) {
-  # If identifier_type differs, promote to alphanumeric
-  type_x <- attr(x, "identifier_type")
-  type_y <- attr(y, "identifier_type")
-  new_type <- if (identical(type_x, type_y)) type_x else "alphanumeric"
-  out <- pre_release_identifier()
-  attr(out, "identifier_type") <- new_type
-  out
+  x
 }
 
 #' @export
 vec_cast.pre_release_identifier.pre_release_identifier <- function(x, to, ...) {
-  # If identifier_type differs, promote to alphanumeric
-  type_x <- attr(x, "identifier_type")
-  type_to <- attr(to, "identifier_type")
-  if (!identical(type_x, type_to)) {
-    attr(x, "identifier_type") <- "alphanumeric"
-  }
   x
 }
 
@@ -91,7 +95,7 @@ vec_cast.pre_release_identifier.logical <- function(x, to, ...) {
 
 #' @export
 vec_cast.character.pre_release_identifier <- function(x, to, ...) {
-  vec_data(x)
+  field(x, "alphanumeric")
 }
 
 #' @export
@@ -125,19 +129,5 @@ vec_cast.pre_release_identifier.double <- function(x, to, ...) {
 
 #' @export
 vec_proxy_compare.pre_release_identifier <- function(x, ...) {
-  type <- attr(x, "identifier_type")
-  is_num <- type == "numeric"
-  # Impute empty values
-  is_empty <- x == ""
-  imputed_value <- if (is_num) {
-    ifelse(is_empty, -Inf, as.numeric(x))
-  } else {
-    ifelse(is_empty, "", as.character(x))
-  }
-
-  df_list(
-    type = !is_num,
-    value = imputed_value
-  ) |>
-    new_data_frame()
+  vec_data(x)
 }

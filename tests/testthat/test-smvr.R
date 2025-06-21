@@ -14,25 +14,34 @@ test_that("smvr basic construction and formatting", {
 })
 
 test_that("smvr ordering", {
-  smvr_vec <- c(
-    "1.0.0+foo",
-    "1.0.0",
-    "1.0.0+bar",
-    "2.0.0",
-    "1.0.0-a",
-    "1.0.0-a.1"
-  ) |>
-    parse_semver()
-  expect_identical(
-    vec_sort(smvr_vec),
-    parse_semver(c(
-      "1.0.0-a",
-      "1.0.0-a.1",
-      "1.0.0+foo",
-      "1.0.0",
-      "1.0.0+bar",
-      "2.0.0"
-    ))
+  expect_equal(
+    rank(parse_semver(
+      c(
+        "1.0.0+foo",
+        "1.0.0",
+        "1.0.0+bar",
+        "2.0.0",
+        "1.0.0-a",
+        "1.0.0-a.1"
+      )
+    )),
+    c(3, 4, 5, 6, 1, 2)
+  )
+
+  expect_equal(
+    rank(parse_semver(
+      c(
+        "1.0.0-alpha",
+        "1.0.0-alpha.1",
+        "1.0.0-alpha.beta",
+        "1.0.0-beta",
+        "1.0.0-beta.2",
+        "1.0.0-beta.11",
+        "1.0.0-rc.1",
+        "1.0.0"
+      )
+    )),
+    1:8
   )
 })
 

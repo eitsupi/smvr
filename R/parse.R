@@ -30,7 +30,6 @@ parse_semver <- function(x) {
       pre_str <- parts[[i]][5]
       if (!is.na(pre_str) && nzchar(pre_str)) {
         ids <- strsplit(pre_str, "\\.")[[1]]
-        ids <- lapply(ids, pre_release_identifier)
         # Ensure we have exactly 5 identifiers, filling with empty ones if needed
         if (length(ids) > 5) {
           cli::cli_abort(c(
@@ -38,7 +37,7 @@ parse_semver <- function(x) {
             `!` = "Only up to 5 pre-release identifiers are supported, got {length(ids)}."
           ))
         }
-        ids <- c(ids, rep(pre_release_identifier(""), 5 - length(ids)))
+        ids <- c(ids, rep("", 5 - length(ids)))
         pre[[i]] <- do.call(pre_release_ids, as.list(ids))
       } else {
         pre[[i]] <- pre_release_ids(pre_release_identifier(""))
@@ -84,8 +83,7 @@ parse_pre_release_ids <- function(x) {
         pre[[i]] <- pre_release_ids("")
       }
     } else {
-      ids <- strsplit(parts[[i]][1], "\\.")[[1]] |>
-        lapply(pre_release_identifier)
+      ids <- strsplit(parts[[i]][1], "\\.")[[1]]
       # Ensure we have exactly 5 identifiers, filling with empty ones if needed
       length_ids <- length(ids)
       if (length_ids > 5) {
@@ -94,7 +92,7 @@ parse_pre_release_ids <- function(x) {
           `!` = "Only up to 5 pre-release identifiers are supported, got {length_ids}."
         ))
       }
-      ids <- c(ids, rep(pre_release_identifier(""), 5 - length_ids))
+      ids <- c(ids, rep("", 5 - length_ids))
       pre[[i]] <- do.call(pre_release_ids, as.list(ids))
     }
   }

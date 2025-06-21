@@ -4,7 +4,8 @@
       pre_release_ids("alpha", "", "1", "", "")
     Condition
       Error in `pre_release_ids()`:
-      ! All ids after the first empty must also be empty (row 1: alpha, , 1, , )
+      ! All ids after the first empty must also be empty.
+      x Problematic index: 1
 
 # cast from/to character
 

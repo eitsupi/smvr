@@ -30,7 +30,7 @@ test_that("pre_release_ids comparison", {
   expect_identical(
     # alphanumeric
     pre_release_ids(c("10", "1", "a")) > pre_release_ids("2"),
-    c(FALSE, FALSE, TRUE)
+    c(TRUE, FALSE, TRUE)
   )
   expect_identical(
     # numeric

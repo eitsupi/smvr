@@ -16,28 +16,28 @@ pre_release_ids <- function(
   id4 = pre_release_identifier(""),
   id5 = pre_release_identifier("")
 ) {
-  ids <- list(id1, id2, id3, id4, id5) |>
+  # Ensure all ids are same length and type
+  values <- df_list(
+    id1 = id1,
+    id2 = id2,
+    id3 = id3,
+    id4 = id4,
+    id5 = id5
+  ) |>
     lapply(\(x) {
       vec_cast(x, pre_release_identifier())
-    })
-  values <- df_list(
-    id1 = ids[[1]],
-    id2 = ids[[2]],
-    id3 = ids[[3]],
-    id4 = ids[[4]],
-    id5 = ids[[5]]
-  ) |>
+    }) |>
     new_data_frame()
+
   # For each row, check that after the first empty, all subsequent ids are also empty
   for (i in seq_len(nrow(values))) {
     row_ids <- values[i, ]
     first_empty <- which(row_ids == "")[1]
     if (!is.na(first_empty) && first_empty < 5) {
       if (any(row_ids[(first_empty + 1):5] != "")) {
-        stop(sprintf(
-          "All ids after the first empty must also be empty (row %d: %s)",
-          i,
-          paste(row_ids, collapse = ", ")
+        cli::cli_abort(c(
+          "All ids after the first empty must also be empty.",
+          x = "Problematic index: {i}"
         ))
       }
     }
@@ -69,13 +69,7 @@ vec_ptype2.pre_release_ids.pre_release_ids <- function(
   y,
   ...
 ) {
-  pre_release_ids(
-    id1 = vec_ptype2(field(x, "id1"), field(y, "id1")),
-    id2 = vec_ptype2(field(x, "id2"), field(y, "id2")),
-    id3 = vec_ptype2(field(x, "id3"), field(y, "id3")),
-    id4 = vec_ptype2(field(x, "id4"), field(y, "id4")),
-    id5 = vec_ptype2(field(x, "id5"), field(y, "id5"))
-  )
+  x
 }
 
 #' @export
@@ -93,8 +87,7 @@ vec_cast.pre_release_ids.pre_release_ids <- function(x, to, ...) x
 
 #' @export
 vec_cast.pre_release_ids.pre_release_ids <- function(x, to, ...) {
-  values <- map2(vec_data(x), vec_data(to), vec_cast)
-  do.call(pre_release_ids, values)
+  x
 }
 
 #' @export
