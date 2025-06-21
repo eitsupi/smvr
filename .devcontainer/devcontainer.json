@@ -1,0 +1,14 @@
+{
+	"image": "ghcr.io/rocker-org/devcontainer/r-ver:4",
+	"features": {
+		"ghcr.io/rocker-org/devcontainer-features/r-dependent-packages:0": {},
+		"ghcr.io/eitsupi/devcontainer-features/go-task:1": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"Posit.air-vscode"
+			]
+		}
+	}
+}

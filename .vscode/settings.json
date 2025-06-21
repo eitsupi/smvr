@@ -1,0 +1,7 @@
+{
+	"[r]": {
+		"editor.tabSize": 2,
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "Posit.air-vscode"
+	}
+}
