@@ -12,8 +12,10 @@
     Code
       x
     Output
-      <pre_release_ids[4]>
-      [1] alpha.1.2  beta.2.3.4            <NA>      
+      alpha.1.2
+      beta.2.3.4
+      <empty>
+      <NA>
 
 # parse_semver rejects invalid semver strings
 
@@ -72,8 +74,7 @@
     Code
       parse_pre_release_ids("alpha.1.2.3.4")
     Output
-      <pre_release_ids[1]>
-      [1] alpha.1.2.3.4
+      alpha.1.2.3.4
 
 ---
 

@@ -1,20 +1,49 @@
-#' pre_release_ids: Pre-release identifiers for Semantic Versioning
+#' Pre-release identifiers
 #'
 #' @description
-#' An rcrd class representing up to 5 pre-release identifiers for Semantic Versioning 2.0.
-#' @param id1 First identifier (character/integer/pre_release_identifier, default: NA)
-#' @param id2 Second identifier (character/integer/pre_release_identifier, default: NA)
-#' @param id3 Third identifier (character/integer/pre_release_identifier, default: NA)
-#' @param id4 Fourth identifier (character/integer/pre_release_identifier, default: NA)
-#' @param id5 Fifth identifier (character/integer/pre_release_identifier, default: NA)
-#' @return An object of class pre_release_ids
+#' Create a vector of pre-release identifiers, which can be used for
+#' marking versions as pre-release versions.
+#'
+#' - [pre_release_ids()] is a low-level constructor for creating
+#'   pre-release identifiers from individual components.
+#' - [parse_pre_release_ids()] parses a character vector into
+#'   pre-release identifiers.
+#'
+#' Empty identifiers are special cases that indicate
+#' _not a pre-release version_.
+#' @details
+#' Internally, [pre_release_ids] store up to 5 [pre_release_identifier].
+#' So this can't represent pre-release identifiers with more than 5 components.
+#' If passing character containing more than 5 components to
+#' [parse_pre_release_ids()], it will throw an error.
+#' @param id1,id2,id3,id4,id5 Single pre-release identifiers.
+#'   Each identifier can be something to be cast to a [pre_release_identifier]
+#'   vector by [vctrs::vec_cast()].
+#' @return A [pre_release_ids] vector.
+#' @examples
+#' # Each components are concatenated with a dot
+#' new_pre_release_ids("rc", 1:3)
+#'
+#' ids <- parse_pre_release_ids(
+#'   c("", "alpha.beta", "alpha.1", "beta", "beta.11", "beta.2")
+#' )
+#' ids
+#'
+#' # Empty ids have the highest precedence
+#' # (Used to indicate not a pre-release version)
+#' vctrs::vec_sort(ids)
+#'
+#' # Works with base R vectors.
+#' ids[ids > "beta.2"]
+#' @aliases pre_release_ids
+#' @order 1
 #' @export
 new_pre_release_ids <- function(
-  id1 = new_pre_release_identifier(),
-  id2 = new_pre_release_identifier(""),
-  id3 = new_pre_release_identifier(""),
-  id4 = new_pre_release_identifier(""),
-  id5 = new_pre_release_identifier("")
+  id1 = character(),
+  id2 = "",
+  id3 = "",
+  id4 = "",
+  id5 = ""
 ) {
   # Ensure all ids are same length and type
   values <- df_list(
@@ -42,7 +71,13 @@ new_pre_release_ids <- function(
       }
     }
   }
-  out <- new_rcrd(values, class = "pre_release_ids")
+  out <- new_rcrd(
+    vec_cbind(
+      is_empty = values$id1 == new_pre_release_identifier(""),
+      values
+    ),
+    class = "pre_release_ids"
+  )
 
   # Fix NAs
   out[!vec_detect_complete(vec_data(out))] <- NA
@@ -64,6 +99,18 @@ format.pre_release_ids <- function(x, ...) {
 }
 
 #' @export
+print.pre_release_ids <- function(x, ...) {
+  formatted <- format(x)
+
+  is_empty <- field(x, "is_empty")
+  formatted[is_empty] <- "<empty>"
+  formatted[is.na(x)] <- "<NA>"
+
+  cat(formatted %0% "new_pre_release_ids()", sep = "\n")
+  invisible(x)
+}
+
+#' @export
 vec_ptype2.pre_release_ids.pre_release_ids <- function(
   x,
   y,
@@ -78,9 +125,13 @@ vec_ptype2.logical.pre_release_ids <- function(x, y, ...) new_pre_release_ids()
 vec_ptype2.pre_release_ids.logical <- function(x, y, ...) new_pre_release_ids()
 
 #' @export
-vec_ptype2.character.pre_release_ids <- function(x, y, ...) character()
+vec_ptype2.character.pre_release_ids <- function(x, y, ...) {
+  new_pre_release_ids()
+}
 #' @export
-vec_ptype2.pre_release_ids.character <- function(x, y, ...) character()
+vec_ptype2.pre_release_ids.character <- function(x, y, ...) {
+  new_pre_release_ids()
+}
 
 #' @export
 vec_cast.pre_release_ids.pre_release_ids <- function(x, to, ...) x
@@ -114,12 +165,4 @@ vec_cast.character.pre_release_ids <- function(x, to, ...) {
 #' @export
 vec_cast.pre_release_ids.character <- function(x, to, ...) {
   parse_pre_release_ids(x)
-}
-
-#' @export
-vec_proxy_compare.pre_release_ids <- function(x, ...) {
-  vec_cbind(
-    is_empty = field(x, "id1") == "",
-    vec_data(x)
-  )
 }

@@ -1,19 +1,39 @@
-#' pre_release_identifier: Single pre-release identifier for Semantic Versioning
+#' Single pre-release identifier
 #'
-#' @description
-#' A class representing a single pre-release identifier (string or integer) for Semantic Versioning 2.0.
-#' @param x Character or integer value
-#' @return An object of class pre_release_identifier
+#' A class representing a single pre-release identifier
+#' (alphanumeric or numeric) for Semantic Versioning 2.0.0.
+#' @param x Something that can be coerced to a character vector by
+#'   [vctrs::vec_cast()]. Empty string (`""`) is a special case
+#'   that means no identifier. The default is length 0 character.
+#' @return A [pre_release_identifier] vector.
+#' @seealso
+#' - [pre_release_ids]: Whole pre-release identifiers
+#'   (Concatenation of [pre_release_identifier]).
+#' @examples
+#' ids <- new_pre_release_identifier(
+#'   c("1", "2", "10", "01", "alpha", "beta", "", NA)
+#' )
+#' ids
+#'
+#' # Numeric identifiers are always sorted before alphanumeric ones.
+#' vctrs::vec_sort(ids)
+#'
+#' # Works with base R vectors.
+#' ids[ids == "alpha" & !is.na(ids)]
+#' ids[ids > 2L & !is.na(ids)]
+#' @aliases pre_release_identifier
 #' @export
 new_pre_release_identifier <- function(x = character()) {
-  # x should be character
-  x <- vec_cast(x, character())
+  x <- vec_cast(x, character(), call = caller_env())
 
   # Only [0-9a-zA-Z-]* allowed
   invalid <- !is.na(x) & !grepl("^[0-9a-zA-Z-]*$", x)
   if (any(invalid)) {
     cli::cli_abort(
-      "Invalid pre-release identifier: only [0-9a-zA-Z-] allowed in each identifier."
+      c(
+        "Identifier must comprise only ASCII alphanumerics and hyphens {.str [0-9a-zA-Z-]}.",
+        x = "Invalid values: {.val {x[invalid]}}"
+      )
     )
   }
 
@@ -48,6 +68,30 @@ format.pre_release_identifier <- function(x, ...) {
 }
 
 #' @export
+print.pre_release_identifier <- function(x, ...) {
+  formatted <- format(x)
+
+  num_field <- field(x, "numeric")
+  is_alphanumeric <- is.infinite(num_field)
+  is_empty <- num_field < 0
+  is_num <- is.finite(num_field) & !is_empty
+
+  formatted[is_alphanumeric] <- paste0(
+    formatted[is_alphanumeric],
+    " <alphanumeric>"
+  )
+  formatted[is_num] <- paste0(
+    formatted[is_num],
+    " <numeric>"
+  )
+  formatted[is_empty] <- "<empty>"
+  formatted[is.na(x)] <- "<NA>"
+
+  cat(formatted %0% "new_pre_release_identifier()", sep = "\n")
+  invisible(x)
+}
+
+#' @export
 vec_ptype2.pre_release_identifier.pre_release_identifier <- function(
   x,
   y,
@@ -71,9 +115,13 @@ vec_ptype2.logical.pre_release_identifier <- function(x, y, ...) {
 }
 
 #' @export
-vec_ptype2.pre_release_identifier.character <- function(x, y, ...) character()
+vec_ptype2.pre_release_identifier.character <- function(x, y, ...) {
+  new_pre_release_identifier()
+}
 #' @export
-vec_ptype2.character.pre_release_identifier <- function(x, y, ...) character()
+vec_ptype2.character.pre_release_identifier <- function(x, y, ...) {
+  new_pre_release_identifier()
+}
 
 #' @export
 vec_ptype2.pre_release_identifier.integer <- function(x, y, ...) {
@@ -105,7 +153,7 @@ vec_cast.pre_release_identifier.character <- function(x, to, ...) {
 
 #' @export
 vec_cast.integer.pre_release_identifier <- function(x, to, ...) {
-  vec_data(x) |>
+  field(x, "alphanumeric") |>
     as.integer() |>
     suppressWarnings()
 }
@@ -117,7 +165,7 @@ vec_cast.pre_release_identifier.integer <- function(x, to, ...) {
 
 #' @export
 vec_cast.double.pre_release_identifier <- function(x, to, ...) {
-  vec_data(x) |>
+  field(x, "alphanumeric") |>
     as.numeric() |>
     suppressWarnings()
 }
@@ -125,9 +173,4 @@ vec_cast.double.pre_release_identifier <- function(x, to, ...) {
 #' @export
 vec_cast.pre_release_identifier.double <- function(x, to, ...) {
   new_pre_release_identifier(as.character(x))
-}
-
-#' @export
-vec_proxy_compare.pre_release_identifier <- function(x, ...) {
-  vec_data(x)
 }

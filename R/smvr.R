@@ -1,13 +1,57 @@
-#' smvr: Semantic Versioning 2.0 vector class
+#' A vector representing versions following Semantic Versioning
 #'
 #' @description
-#' A vctrs-based vector class representing Semantic Versioning 2.0.
-#' @param major Major version (integer)
-#' @param minor Minor version (integer, default: 0)
-#' @param patch Patch version (integer, default: 0)
-#' @param pre_release Pre-release identifiers (default: empty string)
-#' @param build Build string (default: empty string)
-#' @return An object of class smvr
+#' The `smvr` class represents versions that follow the
+#' [Semantic Versioning Specification (SemVer)](https://semver.org/).
+#'
+#' - [smvr()] is a constructor for creating `smvr` objects
+#'   from each component.
+#' - [parse_semver()] parses a character vector into `smvr` objects.
+#'
+#' @details
+#' Build metadata is not used for ordering, but the `==` and `!=` operators
+#' check it and exactly same build metadata is required for equality.
+#' The other operators (`<`, `<=`, `>`, `>=`) ignore build metadata.
+#' @param major,minor,patch Non-negative integers representing
+#'   the major, minor, and patch version components.
+#'   The default values for `minor` and `patch` are `0`.
+#' @param pre_release Something that can be cast to a [pre_release_ids] vector.
+#'   This represents pre-release identifiers, which can be empty (`""`)
+#'   meaning non pre-release.
+#' @param build Optional build metadata character vector.
+#'   This can be empty (`""`) meaning no build metadata.
+#' @return A [smvr] class vector.
+#' @examples
+#' # SemVer versions from components
+#' smvr(4, 1:5)
+#'
+#' # Parse SemVer versions from character
+#' parse_semver(c("1.0.0-alpha", "1.0.0-beta+exp.sha.5114f85"))
+#'
+#' v <- parse_semver(c(
+#'   "1.0.0",
+#'   "1.0.0-alpha",
+#'   "1.0.0-beta",
+#'   "1.0.0-rc.1",
+#'   "1.0.0-rc.2",
+#'   NA
+#' ))
+#' v
+#'
+#' # Sorting
+#' vctrs::vec_sort(v)
+#'
+#' # Works with base R vectors.
+#' v[v >= "1.0.0-rc.2"]
+#'
+#' # Partial version components are treated as NA
+#' suppressWarnings(parse_semver("1.5"))
+#'
+#' # The numeric_version class supports versions with
+#' # less than 3 components, and can be cast to smvr.
+#' numeric_version("1.5") |>
+#'   vctrs::vec_cast(smvr())
+#' @order 2
 #' @export
 smvr <- function(
   major = integer(),
@@ -84,8 +128,8 @@ format.smvr <- function(x, ...) {
     core$minor,
     core$patch
   )
-  has_pre <- !is.na(pre_str) & nzchar(pre_str)
-  has_build <- !is.na(build) & nzchar(build)
+  has_pre <- !field(pre, "is_empty")
+  has_build <- nzchar(build, keepNA = TRUE)
 
   res[is.na(core$major)] <- NA_character_
   res[has_pre & !is.na(res)] <- paste0(res, "-", pre_str)[has_pre & !is.na(res)]
@@ -121,9 +165,9 @@ vec_ptype2.logical.smvr <- function(x, y, ...) smvr()
 vec_ptype2.smvr.logical <- function(x, y, ...) smvr()
 
 #' @export
-vec_ptype2.character.smvr <- function(x, y, ...) character()
+vec_ptype2.character.smvr <- function(x, y, ...) smvr()
 #' @export
-vec_ptype2.smvr.character <- function(x, y, ...) character()
+vec_ptype2.smvr.character <- function(x, y, ...) smvr()
 
 #' @export
 vec_ptype2.numeric_version.smvr <- function(x, y, ...) {

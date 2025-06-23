@@ -12,6 +12,8 @@
     Code
       vec_cast(c("alpha.1", "beta.2", "rc.3", NA), new_pre_release_ids())
     Output
-      <pre_release_ids[4]>
-      [1] alpha.1 beta.2  rc.3    <NA>   
+      alpha.1
+      beta.2
+      rc.3
+      <NA>
 

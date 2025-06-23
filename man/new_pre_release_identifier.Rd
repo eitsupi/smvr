@@ -2,16 +2,39 @@
 % Please edit documentation in R/pre_release_identifier.R
 \name{new_pre_release_identifier}
 \alias{new_pre_release_identifier}
-\title{pre_release_identifier: Single pre-release identifier for Semantic Versioning}
+\alias{pre_release_identifier}
+\title{Single pre-release identifier}
 \usage{
 new_pre_release_identifier(x = character())
 }
 \arguments{
-\item{x}{Character or integer value}
+\item{x}{Something that can be coerced to a character vector by
+\code{\link[vctrs:vec_cast]{vctrs::vec_cast()}}. Empty string (\code{""}) is a special case
+that means no identifier. The default is length 0 character.}
 }
 \value{
-An object of class pre_release_identifier
+A \link{pre_release_identifier} vector.
 }
 \description{
-A class representing a single pre-release identifier (string or integer) for Semantic Versioning 2.0.
+A class representing a single pre-release identifier
+(alphanumeric or numeric) for Semantic Versioning 2.0.0.
+}
+\examples{
+ids <- new_pre_release_identifier(
+  c("1", "2", "10", "01", "alpha", "beta", "", NA)
+)
+ids
+
+# Numeric identifiers are always sorted before alphanumeric ones.
+vctrs::vec_sort(ids)
+
+# Works with base R vectors.
+ids[ids == "alpha" & !is.na(ids)]
+ids[ids > 2L & !is.na(ids)]
+}
+\seealso{
+\itemize{
+\item \link{pre_release_ids}: Whole pre-release identifiers
+(Concatenation of \link{pre_release_identifier}).
+}
 }

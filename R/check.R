@@ -10,7 +10,7 @@ is_pre_release <- function(x) {
       "{.code is_pre_release()} only works with {.code smvr} objects."
     )
   }
-  field(x, "pre_release") != new_pre_release_ids("")
+  !(field(x, "pre_release") |> field("is_empty"))
 }
 
 #' @export
@@ -20,5 +20,5 @@ has_build_metadata <- function(x) {
       "{.code has_build_metadata()} only works with {.code smvr} objects."
     )
   }
-  field(x, "build") != ""
+  nzchar(field(x, "build"), keepNA = TRUE)
 }

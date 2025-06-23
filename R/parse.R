@@ -1,11 +1,13 @@
-#' parse_semver: Parse semantic version strings into smvr objects
-#'
-#' @description
-#' Parses a character vector of semantic version strings into smvr objects, following the official semver.org regular expression.
-#' @param x Character vector of semantic version strings
-#' @return An smvr vector
+#' @param x A character vector representing semantic versions.
+#'   Each version should follow the
+#'   [Semantic Versioning Specification](https://semver.org/).
+#'   Partial matches are not allowed (e.g., `"1.0"` is not valid).
+#' @rdname smvr
+#' @order 2
 #' @export
 parse_semver <- function(x) {
+  x <- vec_cast(x, character(), call = caller_env())
+
   pattern <- paste0(
     "^",
     "(0|[1-9][0-9]*)\\.", # major
@@ -61,11 +63,15 @@ parse_semver <- function(x) {
   )
 }
 
-#' Parse pre-release identifiers string into pre_release_ids object
-#' @param x Character vector (e.g. "alpha.1.2" or "")
-#' @return pre_release_ids object
+#' @param x A character vector representing pre-release identifiers.
+#'   Each identifier separated by a dot (`"."`) will be parsed as a
+#'   [pre_release_identifier].
+#' @rdname new_pre_release_ids
+#' @order 2
 #' @export
 parse_pre_release_ids <- function(x) {
+  x <- vec_cast(x, character(), call = caller_env())
+
   pattern <- "^([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)$"
   m <- regexec(pattern, x)
   parts <- regmatches(x, m)
