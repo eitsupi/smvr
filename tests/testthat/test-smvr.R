@@ -126,3 +126,10 @@ test_that("cast from/to numeric_version", {
     error = TRUE
   )
 })
+
+test_that("invalid build metadata", {
+  expect_snapshot(
+    smvr(1, build = c("foo", "bar.baz", NA, "@foo")),
+    error = TRUE
+  )
+})

@@ -45,3 +45,11 @@ test_that("update functions work", {
     )
   )
 })
+
+test_that("invalid build metadata", {
+  expect_snapshot(
+    smvr(1:5) |>
+      add_build_metadata(c("foo", "bar.baz", "@foo", ":bar")),
+    error = TRUE
+  )
+})

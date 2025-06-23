@@ -128,6 +128,26 @@ add_build_metadata.smvr <- function(x, metadata = "", ...) {
       )
     )
   }
+  # Check the build metadata pattern
+  if (
+    any(
+      !grepl(BUILD_METADATA_PATTERN, metadata, perl = TRUE) &
+        nzchar(metadata) &
+        !is.na(metadata)
+    )
+  ) {
+    problematic_builds <- metadata[
+      !grepl(BUILD_METADATA_PATTERN, metadata, perl = TRUE) &
+        nzchar(metadata) &
+        !is.na(metadata)
+    ]
+    cli::cli_abort(
+      c(
+        "{.arg metadata} must match the pattern {.str {BUILD_METADATA_PATTERN}}.",
+        x = "Problematic values: {.val {problematic_builds}}"
+      )
+    )
+  }
   # Recycle metadata if the length is 1
   field(x, "build") <- if (length(metadata) == 1L) {
     rep(metadata, length(x))

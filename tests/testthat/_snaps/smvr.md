@@ -58,3 +58,12 @@
       ! Cannot cast `numeric_version` with more than 3 components to `smvr`.
       x Problematic values: 1.2.3.4 and 1.2.3.4.5
 
+# invalid build metadata
+
+    Code
+      smvr(1, build = c("foo", "bar.baz", NA, "@foo"))
+    Condition
+      Error in `smvr()`:
+      ! `build` must match the pattern "^[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*$".
+      x Problematic values: "@foo"
+

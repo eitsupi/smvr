@@ -19,6 +19,8 @@
 #'   This represents pre-release identifiers, which can be empty (`""`)
 #'   meaning non pre-release.
 #' @param build Optional build metadata character vector.
+#'   Should have the pattern `^[a-zA-Z0-9-]+` and can contain
+#'   multiple components separated by dots (`"."`).
 #'   This can be empty (`""`) meaning no build metadata.
 #' @return A [smvr] class vector.
 #' @examples
@@ -87,6 +89,26 @@ smvr <- function(
       c(
         "{.code patch} must be non-negative integer values.",
         x = "Problematic values: {.val {patch[patch < 0L]}}"
+      )
+    )
+  }
+  # Check the build metadata pattern
+  if (
+    any(
+      !grepl(BUILD_METADATA_PATTERN, build, perl = TRUE) &
+        nzchar(build) &
+        !is.na(build)
+    )
+  ) {
+    problematic_builds <- build[
+      !grepl(BUILD_METADATA_PATTERN, build, perl = TRUE) &
+        nzchar(build) &
+        !is.na(build)
+    ]
+    cli::cli_abort(
+      c(
+        "{.arg build} must match the pattern {.str {BUILD_METADATA_PATTERN}}.",
+        x = "Problematic values: {.val {problematic_builds}}"
       )
     )
   }
