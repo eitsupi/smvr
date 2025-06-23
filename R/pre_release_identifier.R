@@ -18,16 +18,16 @@ new_pre_release_identifier <- function(x = character()) {
   }
 
   is_empty <- !nzchar(x)
-  is_num <- is.na(x) | is_empty | grepl("^[0-9]+$", x) & !grepl("^0[0-9]+", x)
+  is_num <- grepl("^[0-9]+$", x) & !grepl("^0[0-9]+", x)
 
   alphanumeric_id <- x
   numeric_id <- double(length(x))
 
   # Numeric identifiers always have lower precedence than
   # non-numeric identifiers
-  numeric_id[!is_num] <- Inf
-  numeric_id[is_num & !is_empty] <- as.numeric(x[is_num & !is_empty])
-  numeric_id[is_empty] <- -Inf
+  numeric_id[!is_num & !is_empty] <- Inf
+  numeric_id[is_num] <- as.numeric(x[is_num])
+  numeric_id[is_empty] <- -1
 
   out <- new_rcrd(
     list(
