@@ -91,6 +91,15 @@ mark_as_pre_release <- function(x, ...) {
 #' @export
 mark_as_pre_release.smvr <- function(x, ids = "pre", ...) {
   ids <- vec_cast(ids, new_pre_release_ids())
+  if (anyNA(ids)) {
+    cli::cli_abort(
+      c(
+        "Marking as pre-release failed.",
+        x = "Invalid pre-release identifiers: {.val {ids[is.na(ids)]}}",
+        i = "{.code NA} values are not allowed in {.arg ids}."
+      )
+    )
+  }
   # Recycle ids if the length is 1
   field(x, "pre_release") <- if (length(ids) == 1L) {
     rep(ids, length(x))
@@ -110,6 +119,15 @@ add_build_metadata <- function(x, ...) {
 #' @export
 add_build_metadata.smvr <- function(x, metadata = "", ...) {
   metadata <- vec_cast(metadata, character())
+  if (anyNA(metadata)) {
+    cli::cli_abort(
+      c(
+        "Adding build metadata failed.",
+        x = "Invalid metadata: {.val {metadata[is.na(metadata)]}}",
+        i = "{.code NA} values are not allowed in {.arg metadata}."
+      )
+    )
+  }
   # Recycle metadata if the length is 1
   field(x, "build") <- if (length(metadata) == 1L) {
     rep(metadata, length(x))
