@@ -38,9 +38,9 @@ parse_semver <- function(x) {
           ))
         }
         ids <- c(ids, rep("", 5 - length(ids)))
-        pre[[i]] <- do.call(pre_release_ids, as.list(ids))
+        pre[[i]] <- do.call(new_pre_release_ids, as.list(ids))
       } else {
-        pre[[i]] <- pre_release_ids(pre_release_identifier(""))
+        pre[[i]] <- new_pre_release_ids(new_pre_release_identifier(""))
       }
       build[i] <- if (length(parts[[i]]) >= 6) parts[[i]][6] else NA_character_
     } else {
@@ -49,7 +49,7 @@ parse_semver <- function(x) {
           `!` = "Cannot parse '{x[i]}' as semantic version, setting to {.code NA}."
         ))
       }
-      pre[[i]] <- pre_release_ids(pre_release_identifier(""))
+      pre[[i]] <- new_pre_release_ids(new_pre_release_identifier(""))
     }
   }
   smvr(
@@ -72,15 +72,15 @@ parse_pre_release_ids <- function(x) {
   pre <- vector("list", length(x))
   for (i in seq_along(x)) {
     if (is.na(x[i])) {
-      pre[[i]] <- pre_release_ids(NA)
+      pre[[i]] <- new_pre_release_ids(NA)
     } else if (length(parts[[i]]) == 0) {
       if (nzchar(x[i])) {
         cli::cli_warn(c(
           `!` = "Cannot parse '{x[i]}' as pre-release identifiers, setting to {.code NA}."
         ))
-        pre[[i]] <- pre_release_ids(NA)
+        pre[[i]] <- new_pre_release_ids(NA)
       } else {
-        pre[[i]] <- pre_release_ids("")
+        pre[[i]] <- new_pre_release_ids("")
       }
     } else {
       ids <- strsplit(parts[[i]][1], "\\.")[[1]]
@@ -93,7 +93,7 @@ parse_pre_release_ids <- function(x) {
         ))
       }
       ids <- c(ids, rep("", 5 - length_ids))
-      pre[[i]] <- do.call(pre_release_ids, as.list(ids))
+      pre[[i]] <- do.call(new_pre_release_ids, as.list(ids))
     }
   }
   vec_c(!!!pre)

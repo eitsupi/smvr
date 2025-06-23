@@ -19,7 +19,7 @@ smvr <- function(
   major <- vec_cast(major, integer())
   minor <- vec_cast(minor, integer())
   patch <- vec_cast(patch, integer())
-  pre_release <- vec_cast(pre_release, pre_release_ids())
+  pre_release <- vec_cast(pre_release, new_pre_release_ids())
   build <- vec_cast(build, character())
 
   if (any(major < 0L, na.rm = TRUE)) {

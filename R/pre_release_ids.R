@@ -9,12 +9,12 @@
 #' @param id5 Fifth identifier (character/integer/pre_release_identifier, default: NA)
 #' @return An object of class pre_release_ids
 #' @export
-pre_release_ids <- function(
-  id1 = pre_release_identifier(),
-  id2 = pre_release_identifier(""),
-  id3 = pre_release_identifier(""),
-  id4 = pre_release_identifier(""),
-  id5 = pre_release_identifier("")
+new_pre_release_ids <- function(
+  id1 = new_pre_release_identifier(),
+  id2 = new_pre_release_identifier(""),
+  id3 = new_pre_release_identifier(""),
+  id4 = new_pre_release_identifier(""),
+  id5 = new_pre_release_identifier("")
 ) {
   # Ensure all ids are same length and type
   values <- df_list(
@@ -25,7 +25,7 @@ pre_release_ids <- function(
     id5 = id5
   ) |>
     lapply(\(x) {
-      vec_cast(x, pre_release_identifier())
+      vec_cast(x, new_pre_release_identifier())
     }) |>
     new_data_frame()
 
@@ -73,9 +73,9 @@ vec_ptype2.pre_release_ids.pre_release_ids <- function(
 }
 
 #' @export
-vec_ptype2.logical.pre_release_ids <- function(x, y, ...) pre_release_ids()
+vec_ptype2.logical.pre_release_ids <- function(x, y, ...) new_pre_release_ids()
 #' @export
-vec_ptype2.pre_release_ids.logical <- function(x, y, ...) pre_release_ids()
+vec_ptype2.pre_release_ids.logical <- function(x, y, ...) new_pre_release_ids()
 
 #' @export
 vec_ptype2.character.pre_release_ids <- function(x, y, ...) character()
@@ -93,8 +93,8 @@ vec_cast.pre_release_ids.pre_release_ids <- function(x, to, ...) {
 #' @export
 vec_cast.pre_release_ids.logical <- function(x, to, ...) {
   if (all(is.na(x))) {
-    na_id <- pre_release_identifier(NA_character_)
-    pre_release_ids(
+    na_id <- new_pre_release_identifier(NA_character_)
+    new_pre_release_ids(
       id1 = na_id,
       id2 = na_id,
       id3 = na_id,

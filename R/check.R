@@ -10,7 +10,7 @@ is_pre_release <- function(x) {
       "{.code is_pre_release()} only works with {.code smvr} objects."
     )
   }
-  field(x, "pre_release") != pre_release_ids("")
+  field(x, "pre_release") != new_pre_release_ids("")
 }
 
 #' @export

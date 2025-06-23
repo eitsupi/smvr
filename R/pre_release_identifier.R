@@ -5,7 +5,7 @@
 #' @param x Character or integer value
 #' @return An object of class pre_release_identifier
 #' @export
-pre_release_identifier <- function(x = character()) {
+new_pre_release_identifier <- function(x = character()) {
   # x should be character
   x <- vec_cast(x, character())
 
@@ -63,11 +63,11 @@ vec_cast.pre_release_identifier.pre_release_identifier <- function(x, to, ...) {
 
 #' @export
 vec_ptype2.pre_release_identifier.logical <- function(x, y, ...) {
-  pre_release_identifier()
+  new_pre_release_identifier()
 }
 #' @export
 vec_ptype2.logical.pre_release_identifier <- function(x, y, ...) {
-  pre_release_identifier()
+  new_pre_release_identifier()
 }
 
 #' @export
@@ -77,17 +77,17 @@ vec_ptype2.character.pre_release_identifier <- function(x, y, ...) character()
 
 #' @export
 vec_ptype2.pre_release_identifier.integer <- function(x, y, ...) {
-  pre_release_identifier()
+  new_pre_release_identifier()
 }
 #' @export
 vec_ptype2.integer.pre_release_identifier <- function(x, y, ...) {
-  pre_release_identifier()
+  new_pre_release_identifier()
 }
 
 #' @export
 vec_cast.pre_release_identifier.logical <- function(x, to, ...) {
   if (all(is.na(x))) {
-    pre_release_identifier(rep(NA_character_, length(x)))
+    new_pre_release_identifier(rep(NA_character_, length(x)))
   } else {
     cli::cli_abort("Cannot cast non-NA logical to pre_release_identifier")
   }
@@ -100,7 +100,7 @@ vec_cast.character.pre_release_identifier <- function(x, to, ...) {
 
 #' @export
 vec_cast.pre_release_identifier.character <- function(x, to, ...) {
-  pre_release_identifier(x)
+  new_pre_release_identifier(x)
 }
 
 #' @export
@@ -112,7 +112,7 @@ vec_cast.integer.pre_release_identifier <- function(x, to, ...) {
 
 #' @export
 vec_cast.pre_release_identifier.integer <- function(x, to, ...) {
-  pre_release_identifier(as.character(x))
+  new_pre_release_identifier(as.character(x))
 }
 
 #' @export
@@ -124,7 +124,7 @@ vec_cast.double.pre_release_identifier <- function(x, to, ...) {
 
 #' @export
 vec_cast.pre_release_identifier.double <- function(x, to, ...) {
-  pre_release_identifier(as.character(x))
+  new_pre_release_identifier(as.character(x))
 }
 
 #' @export

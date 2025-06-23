@@ -7,7 +7,7 @@ test_that("major, minor, and patch must be non-negative", {
 test_that("smvr basic construction and formatting", {
   expect_equal(format(smvr(1L, 2L, 3L)), "1.2.3")
   expect_equal(
-    format(smvr(1L, 2L, 3L, pre_release = pre_release_ids("alpha", "1"))),
+    format(smvr(1L, 2L, 3L, pre_release = new_pre_release_ids("alpha", "1"))),
     "1.2.3-alpha.1"
   )
   expect_equal(format(smvr(1L, 2L, 3L, build = "build.5")), "1.2.3+build.5")

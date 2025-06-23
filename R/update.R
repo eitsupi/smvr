@@ -90,7 +90,7 @@ mark_as_pre_release <- function(x, ...) {
 #' @rdname update-version
 #' @export
 mark_as_pre_release.smvr <- function(x, ids = "pre", ...) {
-  ids <- vec_cast(ids, pre_release_ids())
+  ids <- vec_cast(ids, new_pre_release_ids())
   # Recycle ids if the length is 1
   field(x, "pre_release") <- if (length(ids) == 1L) {
     rep(ids, length(x))
