@@ -5,9 +5,9 @@
 \alias{as_smvr.default}
 \title{Convert to \code{smvr} vector}
 \usage{
-as_smvr(x)
+as_smvr(x, ...)
 
-\method{as_smvr}{default}(x)
+\method{as_smvr}{default}(x, ...)
 }
 \arguments{
 \item{x}{An object to convert to \code{smvr}.}

@@ -10,12 +10,12 @@
 #' as_smvr(numeric_version(c("1", "2.3")))
 #' as_smvr(NA)
 #' @export
-as_smvr <- function(x) {
+as_smvr <- function(x, ...) {
   UseMethod("as_smvr")
 }
 
 #' @rdname as_smvr
 #' @export
-as_smvr.default <- function(x) {
+as_smvr.default <- function(x, ...) {
   vec_cast(x, smvr(), call = caller_env())
 }
