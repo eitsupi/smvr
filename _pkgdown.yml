@@ -1,0 +1,4 @@
+url: https://eitsupi.github.io/smvr
+template:
+  bootstrap: 5
+  light-switch: true
