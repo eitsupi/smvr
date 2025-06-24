@@ -24,6 +24,8 @@ This represents pre-release identifiers, which can be empty (\code{""})
 meaning non pre-release.}
 
 \item{build}{Optional build metadata character vector.
+Should have the pattern \verb{^[a-zA-Z0-9-]+} and can contain
+multiple components separated by dots (\code{"."}).
 This can be empty (\code{""}) meaning no build metadata.}
 }
 \value{
