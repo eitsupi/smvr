@@ -40,7 +40,7 @@ env:
 jobs:
   R-CMD-check:
     runs-on: ${{ matrix.os }}
-    name: R CMD check (R ${{ matrix.r }})
+    name: ${{ matrix.os }} (R ${{ matrix.r }})
     strategy:
       fail-fast: false
       matrix:
