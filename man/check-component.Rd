@@ -31,3 +31,8 @@ v
 is_pre_release(v)
 has_build_metadata(v)
 }
+\seealso{
+\itemize{
+\item \link{extract-component} functions for extracting components from a \link{smvr} object.
+}
+}
