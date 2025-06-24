@@ -17,6 +17,8 @@ is_smvr <- function(x) {
 #' - `has_build_metadata()`: Checks if the build metadata is present.
 #' @param x A [smvr] object.
 #' @return Indicates whether `x` has the specified component.
+#' @seealso
+#' - [extract-component] functions for extracting components from a [smvr] object.
 #' @examples
 #' v <- parse_semver(c(
 #'   "1.0.0", "2.0.0-alpha", "2.0.0-beta", "2.0.0-beta.2+build.123"
@@ -25,7 +27,10 @@ is_smvr <- function(x) {
 #'
 #' is_pre_release(v)
 #' has_build_metadata(v)
-#' @rdname check-components
+#' @name check-component
+NULL
+
+#' @rdname check-component
 #' @export
 is_pre_release <- function(x) {
   if (!is_smvr(x)) {
@@ -36,7 +41,7 @@ is_pre_release <- function(x) {
   !(field(x, "pre_release") |> field("is_empty"))
 }
 
-#' @rdname check-components
+#' @rdname check-component
 #' @export
 has_build_metadata <- function(x) {
   if (!is_smvr(x)) {
