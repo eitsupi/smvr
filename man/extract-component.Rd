@@ -80,6 +80,7 @@ extract_patch(num_ver)
 }
 \seealso{
 \itemize{
-\item \link{check-component} functions for checking if \link{smvr} object has a specific component.
+\item \link{check-component} functions for checking if
+\link{smvr} object has a specific component.
 }
 }

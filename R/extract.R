@@ -11,7 +11,8 @@
 #' - [extract_pre_release_ids()] returns [pre_release_ids].
 #' - [extract_build_metadata()] returns character.
 #' @seealso
-#' - [check-component] functions for checking if [smvr] object has a specific component.
+#' - [check-component] functions for checking if
+#'   [smvr] object has a specific component.
 #' @examples
 #' sem_ver <- parse_semver(c("1.2.3-alpha+001", "2.0.0", NA))
 #'

@@ -27,7 +27,7 @@ is_smvr <- function(x) {
 #'
 #' is_pre_release(v)
 #' has_build_metadata(v)
-#' @rdname check-component
+#' @name check-component
 #' @export
 is_pre_release <- function(x) {
   if (!is_smvr(x)) {
