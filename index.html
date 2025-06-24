@@ -57,13 +57,13 @@
 <div class="page-header"><h1 id="smvr">smvr<a class="anchor" aria-label="anchor" href="#smvr"></a>
 </h1></div>
 <!-- badges: start -->
-<!-- badges: end -->
+
 <p>Simple implementation of <a href="https://semver.org/" class="external-link">Semantic Versioning 2.0.0</a> on R.</p>
-<p>smvr provides a <a href="https://vctrs.r-lib.org/" class="external-link">vctrs</a>-based vector class <code>smvr</code> for semantic versions. It enables type-safe manipulation, comparison, and sorting of semantic versions.</p>
+<p>smvr provides a lightweight, fully vectorized R class for Semantic Versioning. It enables type-safe manipulation, comparison, and sorting of version numbers, and integrates smoothly with tidyverse tools.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of smvr with:</p>
+<p>The development version can be installed from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"eitsupi/smvr"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -81,18 +81,16 @@
 <span><span class="co">#&gt; &lt;smvr[5]&gt;</span></span>
 <span><span class="co">#&gt; [1] 0.9.0          1.0.0-alpha    1.0.0-alpha.1  1.0.0          1.0.1+20250621</span></span>
 <span></span>
-<span><span class="co"># Cast from / to the `numeric_version` class</span></span>
-<span><span class="fu"><a href="reference/as_smvr.html">as_smvr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric_version.html" class="external-link">numeric_version</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"4"</span>, <span class="st">"4.5.1"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;smvr[2]&gt;</span></span>
-<span><span class="co">#&gt; [1] 4.0.0 4.5.1</span></span>
-<span><span class="fu">vctrs</span><span class="fu">::</span><span class="fu"><a href="https://vctrs.r-lib.org/reference/vec_cast.html" class="external-link">vec_cast</a></span><span class="op">(</span><span class="fu"><a href="reference/smvr.html">smvr</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/numeric_version.html" class="external-link">numeric_version</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '1.2.3'</span></span>
+<span><span class="co"># Can compare with string notation</span></span>
+<span><span class="va">v</span><span class="op">[</span><span class="va">v</span> <span class="op">&lt;</span> <span class="st">"1.0.0"</span><span class="op">]</span></span>
+<span><span class="co">#&gt; &lt;smvr[3]&gt;</span></span>
+<span><span class="co">#&gt; [1] 1.0.0-alpha   1.0.0-alpha.1 0.9.0</span></span>
 <span></span>
 <span><span class="co"># Works with tibble data frame and dplyr</span></span>
 <span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>version <span class="op">=</span> <span class="va">v</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">version</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    `&gt;= 1.0.0` <span class="op">=</span> <span class="va">version</span> <span class="op">&gt;=</span> <span class="fu"><a href="reference/smvr.html">smvr</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span>
+<span>    `&gt;= 1.0.0` <span class="op">=</span> <span class="va">version</span> <span class="op">&gt;=</span> <span class="st">"1.0.0"</span>,</span>
 <span>    `pre-release` <span class="op">=</span> <span class="fu"><a href="reference/check-components.html">is_pre_release</a></span><span class="op">(</span><span class="va">version</span><span class="op">)</span>,</span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 5 × 3</span></span>
@@ -108,25 +106,29 @@
 <h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
 </h2>
 <ul>
-<li>Create version objects with <code><a href="reference/smvr.html">smvr()</a></code>
-</li>
-<li>Parse version characters with <code><a href="reference/smvr.html">parse_semver()</a></code>
-</li>
-<li>Use comparison operators (&lt;, &gt;, ==), <code>sort</code>, <code>order</code>, etc. (<a href="https://vctrs.r-lib.org/" class="external-link">vctrs</a> compatible)</li>
+<li>Fully vectorized Semantic Versioning class.</li>
+<li>Type-safe comparison and sorting.</li>
+<li>Tidyverse compatibility (<a href="https://tibble.tidyverse.org/" class="external-link">tibble</a>, <a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a>, etc.).</li>
+<li>No dependencies except <a href="https://vctrs.r-lib.org/" class="external-link">vctrs</a>.</li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="known-limitations">Known Limitations<a class="anchor" aria-label="anchor" href="#known-limitations"></a>
 </h2>
-<ul>
-<li>The number of pre-release identifier fields is limited to 5.</li>
-</ul>
+<p>The number of pre-release identifier fields is limited to 5.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Only 5 pre-release fields are supported:</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="reference/smvr.html">parse_semver</a></span><span class="op">(</span><span class="st">"1.2.3-a.b.c.d.e.f"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="reference/smvr.html">parse_semver</a></span><span class="op">(</span><span class="st">"1.2.3-a.b.c.d.e.f"</span><span class="op">)</span><span class="op">)</span> <span class="co"># Having 6 dot separated identifiers</span></span>
 <span><span class="co">#&gt; Error in parse_semver("1.2.3-a.b.c.d.e.f") : </span></span>
 <span><span class="co">#&gt;   Unsupported pre-release identifiers in '1.2.3-a.b.c.d.e.f'.</span></span>
 <span><span class="co">#&gt; ! Only up to 5 pre-release identifiers are supported, got 6.</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="related-works">Related Works<a class="anchor" aria-label="anchor" href="#related-works"></a>
+</h2>
+<ul>
+<li>The <a href="https://CRAN.R-project.org/package=semver" class="external-link">semver</a> package is a wrapper for a C++ SemVer parser. The class provided by this package is a special list, which does not work well with <a href="https://tibble.tidyverse.org/" class="external-link">tibble</a> and <a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a>.</li>
+</ul>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -160,7 +162,12 @@
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://CRAN.R-project.org/package=smvr" class="external-link"><img src="https://www.r-pkg.org/badges/version/smvr" alt="CRAN status"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>
