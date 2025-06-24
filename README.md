@@ -5,18 +5,20 @@
 
 <!-- badges: start -->
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/smvr)](https://CRAN.R-project.org/package=smvr)
 <!-- badges: end -->
 
 Simple implementation of [Semantic Versioning
 2.0.0](https://semver.org/) on R.
 
-smvr provides a `{vctrs}`-based vector class `smvr` for semantic
-versions. It enables type-safe manipulation, comparison, and sorting of
-semantic versions.
+smvr provides a lightweight, fully vectorized R class for Semantic
+Versioning. It enables type-safe manipulation, comparison, and sorting
+of version numbers, and integrates smoothly with tidyverse tools.
 
 ## Installation
 
-You can install the development version of smvr with:
+The development version can be installed from GitHub:
 
 ``` r
 pak::pak("eitsupi/smvr")
@@ -35,18 +37,16 @@ sort(v)
 #> <smvr[5]>
 #> [1] 0.9.0          1.0.0-alpha    1.0.0-alpha.1  1.0.0          1.0.1+20250621
 
-# Cast from / to the `numeric_version` class
-as_smvr(numeric_version(c("4", "4.5.1")))
-#> <smvr[2]>
-#> [1] 4.0.0 4.5.1
-vctrs::vec_cast(smvr(1, 2, 3), numeric_version(character()))
-#> [1] '1.2.3'
+# Can compare with string notation
+v[v < "1.0.0"]
+#> <smvr[3]>
+#> [1] 1.0.0-alpha   1.0.0-alpha.1 0.9.0
 
 # Works with tibble data frame and dplyr
 tibble::tibble(version = v) |>
   dplyr::arrange(version) |>
   dplyr::mutate(
-    `>= 1.0.0` = version >= smvr(1),
+    `>= 1.0.0` = version >= "1.0.0",
     `pre-release` = is_pre_release(version),
   )
 #> # A tibble: 5 × 3
@@ -61,19 +61,26 @@ tibble::tibble(version = v) |>
 
 ## Features
 
-- Create version objects with `smvr()`
-- Parse version characters with `parse_semver()`
-- Use comparison operators (\<, \>, ==), `sort`, `order`, etc.
-  (`{vctrs}` compatible)
+- Fully vectorized Semantic Versioning class.
+- Type-safe comparison and sorting.
+- Tidyverse compatibility (`{tibble}`, `{dplyr}`, etc.).
+- No dependencies except `{vctrs}`.
 
 ## Known Limitations
 
-- The number of pre-release identifier fields is limited to 5.
+The number of pre-release identifier fields is limited to 5.
 
 ``` r
 # Only 5 pre-release fields are supported:
-try(parse_semver("1.2.3-a.b.c.d.e.f"))
+try(parse_semver("1.2.3-a.b.c.d.e.f")) # Having 6 dot separated identifiers
 #> Error in parse_semver("1.2.3-a.b.c.d.e.f") : 
 #>   Unsupported pre-release identifiers in '1.2.3-a.b.c.d.e.f'.
 #> ! Only up to 5 pre-release identifiers are supported, got 6.
 ```
+
+## Related Works
+
+- The [semver](https://CRAN.R-project.org/package=semver) package is a
+  wrapper for a C++ SemVer parser. The class provided by this package is
+  a special list, which does not work well with `{tibble}` and
+  `{dplyr}`.
