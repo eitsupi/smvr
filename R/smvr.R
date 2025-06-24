@@ -254,6 +254,7 @@ vec_cast.smvr.numeric_version <- function(x, to, ...) {
   values <- unclass(x)
   n_components <- values |>
     map_int(length)
+
   if (any(n_components > 3L)) {
     cli::cli_abort(
       c(
@@ -263,11 +264,15 @@ vec_cast.smvr.numeric_version <- function(x, to, ...) {
     )
   }
 
-  values |>
-    map(\(v) {
-      if (length(v) == 0L) smvr(NA) else do.call(smvr, as.list(v))
-    }) |>
-    (\(x) vec_c(!!!x))()
+  major <- map_int(values, \(x) x[1L]) %|% 0L
+  minor <- map_int(values, \(x) x[2L]) %|% 0L
+  patch <- map_int(values, \(x) x[3L]) %|% 0L
+
+  out <- smvr(major, minor, patch)
+
+  # Fix NAs
+  out[n_components == 0L] <- NA
+  out
 }
 
 #' @export
