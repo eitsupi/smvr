@@ -115,7 +115,10 @@ test_that("cast from/to numeric_version", {
   )
 
   expect_identical(
-    vec_cast(numeric_version(c("1", "1.2", "1.2.3", NA)), smvr()),
+    vec_cast(
+      numeric_version(c("1", "1.2", "1.2.3", NA), strict = FALSE),
+      smvr()
+    ),
     smvr(c(1L, 1L, 1L, NA), c(0L, 2L, 2L, NA), c(0L, 0L, 3L, NA))
   )
   expect_snapshot(

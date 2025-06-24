@@ -7,6 +7,15 @@
 \description{
 Simple implementation of Semantic Versioning 2.0.0 on the 'vctrs' package. This package provides a simple way to create, compare, and manipulate semantic versions in R. It is designed to be lightweight and easy to use.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://eitsupi.github.io/smvr/}
+  \item \url{https://github.com/eitsupi/smvr}
+  \item Report bugs at \url{https://github.com/eitsupi/smvr/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Tatsuya Shima \email{ts1s1andn@gmail.com}
 

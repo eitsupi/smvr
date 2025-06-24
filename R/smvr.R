@@ -246,7 +246,7 @@ vec_cast.numeric_version.smvr <- function(x, to, ...) {
   }
   add_build_metadata(x, "") |>
     format() |>
-    as.numeric_version()
+    numeric_version(strict = FALSE)
 }
 
 #' @export
