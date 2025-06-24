@@ -8,6 +8,8 @@ Description: Simple implementation of Semantic Versioning 2.0.0 on the
     compare, and manipulate semantic versions in R. It is designed to be
     lightweight and easy to use.
 License: MIT + file LICENSE
+URL: https://eitsupi.github.io/smvr/, https://github.com/eitsupi/smvr
+BugReports: https://github.com/eitsupi/smvr/issues
 Depends:
     R (>= 4.1)
 Imports:
