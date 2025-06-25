@@ -64,9 +64,9 @@ parse_semver <- function(x) {
 }
 
 #' @param x A character vector representing pre-release identifiers.
-#'   Each identifier separated by a dot (`"."`) will be parsed as a
+#'   Each identifier separated by a dot (`.`) will be parsed as a
 #'   [pre_release_identifier].
-#' @rdname new_pre_release_ids
+#' @rdname pre_release_ids
 #' @order 2
 #' @export
 parse_pre_release_ids <- function(x) {

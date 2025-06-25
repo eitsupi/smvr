@@ -2,8 +2,8 @@
 % Please edit documentation in R/pre_release_ids.R, R/parse.R
 \name{new_pre_release_ids}
 \alias{new_pre_release_ids}
-\alias{pre_release_ids}
 \alias{parse_pre_release_ids}
+\alias{pre_release_ids}
 \title{Pre-release identifiers}
 \usage{
 new_pre_release_ids(id1 = character(), id2 = "", id3 = "", id4 = "", id5 = "")
@@ -13,33 +13,37 @@ parse_pre_release_ids(x)
 \arguments{
 \item{id1, id2, id3, id4, id5}{Single pre-release identifiers.
 Each identifier can be something to be cast to a \link{pre_release_identifier}
-vector by \code{\link[vctrs:vec_cast]{vctrs::vec_cast()}}.}
+vector by \code{\link[vctrs:vec_cast]{vctrs::vec_cast()}}.
+All components must be of the same length or length 1 (will be recycled).}
 
 \item{x}{A character vector representing pre-release identifiers.
-Each identifier separated by a dot (\code{"."}) will be parsed as a
+Each identifier separated by a dot (\code{.}) will be parsed as a
 \link{pre_release_identifier}.}
 }
 \value{
 A \link{pre_release_ids} vector.
 }
 \description{
-Create a vector of pre-release identifiers, which can be used for
-marking versions as pre-release versions.
+A class representing a collection of \link[=pre_release_identifier]{identifiers},
+which are used for representing pre-release versions.
+
+There are two functions to create the \link{pre_release_ids} vector:
 \itemize{
 \item \code{\link[=pre_release_ids]{pre_release_ids()}} is a low-level constructor for creating
 pre-release identifiers from individual components.
 \item \code{\link[=parse_pre_release_ids]{parse_pre_release_ids()}} parses a character vector into
 pre-release identifiers.
 }
-
-Empty identifiers are special cases that indicate
-\emph{not a pre-release version}.
 }
 \details{
 Internally, \link{pre_release_ids} store up to 5 \link{pre_release_identifier}.
 So this can't represent pre-release identifiers with more than 5 components.
 If passing character containing more than 5 components to
 \code{\link[=parse_pre_release_ids]{parse_pre_release_ids()}}, it will throw an error.
+
+If the components are empty, they are treated as the highest precedence
+pre-release ids, which is used to indicate that the version is not
+a pre-release version.
 }
 \examples{
 # Each components are concatenated with a dot
@@ -54,6 +58,10 @@ ids
 # (Used to indicate not a pre-release version)
 vctrs::vec_sort(ids)
 
-# Works with base R vectors.
+# Can be compared with string notation
 ids[ids > "beta.2"]
+
+# Limitation: only support up to 5 components
+parse_pre_release_ids("a.b.c.d.e")
+try(parse_pre_release_ids("a.b.c.d.e.f"))
 }

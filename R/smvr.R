@@ -3,10 +3,20 @@
 #' @description
 #' The `smvr` class represents versions that follow the
 #' [Semantic Versioning Specification (SemVer)](https://semver.org/).
+#' A version number contains three components, `MAJOR.MINOR.PATCH`,
+#' and optional pre-release and build metadata labels.
 #'
-#' - [smvr()] is a constructor for creating `smvr` objects
-#'   from each component.
-#' - [parse_semver()] parses a character vector into `smvr` objects.
+#' This is similar to the base R's [numeric_version] class, but always has
+#' three components (major, minor, patch) and supports pre-release
+#' and build metadata labels. And, unlike [numeric_version],
+#' SemVer uses dots (`.`) as separators and does not allow hyphens (`-`)
+#' except to indicate the start of a pre-release label.
+#'
+#' There are two functions to create [smvr] objects:
+#'
+#' - [smvr()] is a constructor from each component.
+#'   Each component must have the same length or length 1 (will be recycled).
+#' - [parse_semver()] parses a character vector.
 #'
 #' @details
 #' Build metadata is not used for ordering, but the `==` and `!=` operators
@@ -16,20 +26,19 @@
 #'   the major, minor, and patch version components.
 #'   The default values for `minor` and `patch` are `0`.
 #' @param pre_release Something that can be cast to a [pre_release_ids] vector.
-#'   This represents pre-release identifiers, which can be empty (`""`)
-#'   meaning non pre-release.
+#'   This can be empty (`""`) meaning non pre-release (default).
 #' @param build Optional build metadata character vector.
 #'   Should have the pattern `^[a-zA-Z0-9-]+` and can contain
-#'   multiple components separated by dots (`"."`).
-#'   This can be empty (`""`) meaning no build metadata.
+#'   multiple components separated by dots (`.`).
+#'   This can be empty (`""`) meaning no build metadata (default).
 #' @return A [smvr] class vector.
+#' @seealso
+#' - [as_smvr()] to convert other classes to [smvr].
 #' @examples
 #' # SemVer versions from components
 #' smvr(4, 1:5)
 #'
 #' # Parse SemVer versions from character
-#' parse_semver(c("1.0.0-alpha", "1.0.0-beta+exp.sha.5114f85"))
-#'
 #' v <- parse_semver(c(
 #'   "1.0.0",
 #'   "1.0.0-alpha",
@@ -43,8 +52,8 @@
 #' # Sorting
 #' vctrs::vec_sort(v)
 #'
-#' # Works with base R vectors.
-#' v[v >= "1.0.0-rc.2"]
+#' # Can be compared with string notation
+#' v[v >= "1.0.0-rc.2" & !is.na(v)]
 #'
 #' # Partial version components are treated as NA
 #' suppressWarnings(parse_semver("1.5"))
@@ -53,7 +62,12 @@
 #' # less than 3 components, and can be cast to smvr.
 #' numeric_version("1.5") |>
 #'   vctrs::vec_cast(smvr())
-#' @order 2
+#'
+#' # Be careful with hyphens in numeric_version and SemVer.
+#' # The following examples yield opposite results.
+#' numeric_version("1.0.0-1") > "1.0.0" # 1.0.0-1 is the same as 1.0.0.1
+#' parse_semver("1.0.0-1") > "1.0.0"    # 1.0.0-1 is a pre-release version
+#' @order 1
 #' @export
 smvr <- function(
   major = integer(),

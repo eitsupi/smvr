@@ -15,7 +15,7 @@ as_smvr(x, ...)
 \item{...}{Additional arguments passed to methods.}
 }
 \value{
-An object of class \code{smvr}.
+A \link{smvr} class vector.
 }
 \description{
 \code{as_smvr()} is a generic function that converts an object to \code{smvr}
