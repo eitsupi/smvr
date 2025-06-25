@@ -1,24 +1,28 @@
 #' Pre-release identifiers
 #'
 #' @description
-#' Create a vector of pre-release identifiers, which can be used for
-#' marking versions as pre-release versions.
+#' A class representing a collection of [identifiers][pre_release_identifier],
+#' which are used for representing pre-release versions.
+#'
+#' There are two functions to create the [pre_release_ids] vector:
 #'
 #' - [pre_release_ids()] is a low-level constructor for creating
 #'   pre-release identifiers from individual components.
 #' - [parse_pre_release_ids()] parses a character vector into
 #'   pre-release identifiers.
-#'
-#' Empty identifiers are special cases that indicate
-#' _not a pre-release version_.
 #' @details
 #' Internally, [pre_release_ids] store up to 5 [pre_release_identifier].
 #' So this can't represent pre-release identifiers with more than 5 components.
 #' If passing character containing more than 5 components to
 #' [parse_pre_release_ids()], it will throw an error.
+#'
+#' If the components are empty, they are treated as the highest precedence
+#' pre-release ids, which is used to indicate that the version is not
+#' a pre-release version.
 #' @param id1,id2,id3,id4,id5 Single pre-release identifiers.
 #'   Each identifier can be something to be cast to a [pre_release_identifier]
 #'   vector by [vctrs::vec_cast()].
+#'   All components must be of the same length or length 1 (will be recycled).
 #' @return A [pre_release_ids] vector.
 #' @examples
 #' # Each components are concatenated with a dot
@@ -33,8 +37,12 @@
 #' # (Used to indicate not a pre-release version)
 #' vctrs::vec_sort(ids)
 #'
-#' # Works with base R vectors.
+#' # Can be compared with string notation
 #' ids[ids > "beta.2"]
+#'
+#' # Limitation: only support up to 5 components
+#' parse_pre_release_ids("a.b.c.d.e")
+#' try(parse_pre_release_ids("a.b.c.d.e.f"))
 #' @name pre_release_ids
 NULL
 

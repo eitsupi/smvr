@@ -9,8 +9,9 @@ new_pre_release_identifier(x = character())
 }
 \arguments{
 \item{x}{Something that can be coerced to a character vector by
-\code{\link[vctrs:vec_cast]{vctrs::vec_cast()}}. Empty string (\code{""}) is a special case
-that means no identifier. The default is length 0 character.}
+\code{\link[vctrs:vec_cast]{vctrs::vec_cast()}}. Each element must be ASCII alphanumerics,
+hyphens, or empty string (\code{""}). Empty string is a special case
+that means no identifier.}
 }
 \value{
 A \link{pre_release_identifier} vector.
@@ -19,18 +20,30 @@ A \link{pre_release_identifier} vector.
 A class representing a single pre-release identifier
 (alphanumeric or numeric) for Semantic Versioning 2.0.0.
 }
+\details{
+Identifiers are compared based on the following criteria:
+\itemize{
+\item If the identifier is empty, it is treated as the smallest value.
+\item Integers greater than or equal to 0 are treated as numeric identifiers
+and compared numerically.
+\item Else, identifiers are treated as alphanumeric identifiers
+and compared lexically ASCII sort order.
+\item Numeric identifiers always have lower precedence than
+alphanumeric identifiers.
+}
+}
 \examples{
-ids <- new_pre_release_identifier(
-  c("1", "2", "10", "01", "alpha", "beta", "", NA)
+id <- new_pre_release_identifier(
+  c("1", "2", "10", "01", "-1", "alpha", "beta", "", NA)
 )
-ids
+id
 
-# Numeric identifiers are always sorted before alphanumeric ones.
-vctrs::vec_sort(ids)
+# empty < numeric < alphanumeric
+vctrs::vec_sort(id)
 
 # Works with base R vectors.
-ids[ids == "alpha" & !is.na(ids)]
-ids[ids > 2L & !is.na(ids)]
+id[id == "alpha" & !is.na(id)]
+id[id > 2L & !is.na(id)]
 }
 \seealso{
 \itemize{
