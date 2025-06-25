@@ -35,7 +35,10 @@
 #'
 #' # Works with base R vectors.
 #' ids[ids > "beta.2"]
-#' @aliases pre_release_ids
+#' @name pre_release_ids
+NULL
+
+#' @rdname pre_release_ids
 #' @order 1
 #' @export
 new_pre_release_ids <- function(

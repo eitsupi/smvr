@@ -2,8 +2,8 @@
 % Please edit documentation in R/pre_release_ids.R, R/parse.R
 \name{new_pre_release_ids}
 \alias{new_pre_release_ids}
-\alias{pre_release_ids}
 \alias{parse_pre_release_ids}
+\alias{pre_release_ids}
 \title{Pre-release identifiers}
 \usage{
 new_pre_release_ids(id1 = character(), id2 = "", id3 = "", id4 = "", id5 = "")

@@ -2,3 +2,20 @@ url: https://eitsupi.github.io/smvr
 template:
   bootstrap: 5
   light-switch: true
+
+reference:
+  - title: Vector classes
+    desc: >
+      Constructor functions and parser functions for the vector classes
+      represent the SemVer versioning scheme.
+    contents:
+      - smvr
+      - pre_release_ids
+      - pre_release_identifier
+  - title: Manipulation
+    contents:
+      - as_smvr
+      - is_smvr
+      - check-component
+      - extract-component
+      - update-version

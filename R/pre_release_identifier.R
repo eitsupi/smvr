@@ -21,7 +21,10 @@
 #' # Works with base R vectors.
 #' ids[ids == "alpha" & !is.na(ids)]
 #' ids[ids > 2L & !is.na(ids)]
-#' @aliases pre_release_identifier
+#' @name pre_release_identifier
+NULL
+
+#' @rdname pre_release_identifier
 #' @export
 new_pre_release_identifier <- function(x = character()) {
   x <- vec_cast(x, character(), call = caller_env())

@@ -53,7 +53,7 @@
 #' # less than 3 components, and can be cast to smvr.
 #' numeric_version("1.5") |>
 #'   vctrs::vec_cast(smvr())
-#' @order 2
+#' @order 1
 #' @export
 smvr <- function(
   major = integer(),
