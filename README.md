@@ -74,6 +74,11 @@ tibble::tibble(version = v) |>
 
 ## Related Works
 
+- The numeric version class vector can be crated with
+  `numeric_version()` in base R works well for versions that only have
+  MAJOR.MINOR.PATCH. But it does not support pre-release identifiers of
+  SemVer, so in the case of including pre-release versions, it is not
+  suitable.
 - The [semver](https://CRAN.R-project.org/package=semver) package is a
   wrapper for a C++ SemVer parser. The class provided by this package is
   a special list, which does not work well with `{tibble}` and
