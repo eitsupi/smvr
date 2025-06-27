@@ -25,6 +25,14 @@
       ! `patch` must be non-negative integer values.
       x Problematic values: -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, -13, -14, -15, -16, -17, -18, ..., -99, and -100
 
+# comparison
+
+    Code
+      smvr_vec >= "0.0.0-1.2.3.4.5.6"
+    Condition
+      Error in `vec_compare()`:
+      ! `x` and `y` are not comparable: must have the same number of columns
+
 # cast from/to character
 
     Code

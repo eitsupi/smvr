@@ -72,18 +72,6 @@ tibble::tibble(version = v) |>
 - Tidyverse compatibility (`{tibble}`, `{dplyr}`, etc.).
 - No dependencies except `{vctrs}`.
 
-## Known Limitations
-
-The number of pre-release identifier fields is limited to 5.
-
-``` r
-# Only 5 pre-release fields are supported:
-try(parse_semver("1.2.3-a.b.c.d.e.f")) # Having 6 dot separated identifiers
-#> Error in parse_semver("1.2.3-a.b.c.d.e.f") : 
-#>   Unsupported pre-release identifiers in '1.2.3-a.b.c.d.e.f'.
-#> ! Only up to 5 pre-release identifiers are supported, got 6.
-```
-
 ## Related Works
 
 - The [semver](https://CRAN.R-project.org/package=semver) package is a

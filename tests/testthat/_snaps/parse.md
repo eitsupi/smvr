@@ -61,36 +61,18 @@
       <smvr[1]>
       [1] <NA>
 
-# Only supports up to 5 pre-release identifiers
+# Supports more than 5 pre-release identifiers
 
     Code
-      parse_semver("1.2.3-alpha.1.2.3.4")
+      parse_semver("1.2.3-alpha.1.2.3.4.5.6.7.8.9")
     Output
       <smvr[1]>
-      [1] 1.2.3-alpha.1.2.3.4
+      [1] 1.2.3-alpha.1.2.3.4.5.6.7.8.9
 
 ---
 
     Code
-      parse_pre_release_ids("alpha.1.2.3.4")
+      parse_pre_release_ids("alpha.1.2.3.4.5.6.7.8.9")
     Output
-      alpha.1.2.3.4
-
----
-
-    Code
-      parse_semver("1.2.3-alpha.1.2.3.4.5")
-    Condition
-      Error in `parse_semver()`:
-      ! Unsupported pre-release identifiers in '1.2.3-alpha.1.2.3.4.5'.
-      ! Only up to 5 pre-release identifiers are supported, got 6.
-
----
-
-    Code
-      parse_pre_release_ids("alpha.1.2.3.4.5")
-    Condition
-      Error in `parse_pre_release_ids()`:
-      ! Unsupported pre-release identifiers in 'alpha.1.2.3.4.5'.
-      ! Only up to 5 pre-release identifiers are supported, got 6.
+      alpha.1.2.3.4.5.6.7.8.9
 

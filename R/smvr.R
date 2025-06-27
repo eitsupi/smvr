@@ -200,10 +200,16 @@ vec_ptype2.logical.smvr <- function(x, y, ...) smvr()
 #' @export
 vec_ptype2.smvr.logical <- function(x, y, ...) smvr()
 
+# We can't determine the number of identifiers included in the
+# character vector, so only 5 identifiers are allowed.
 #' @export
-vec_ptype2.character.smvr <- function(x, y, ...) smvr()
+vec_ptype2.character.smvr <- function(x, y, ...) {
+  smvr(pre_release = ptype2_chr_ids_impl(x, y))
+}
 #' @export
-vec_ptype2.smvr.character <- function(x, y, ...) smvr()
+vec_ptype2.smvr.character <- function(x, y, ...) {
+  smvr(pre_release = ptype2_chr_ids_impl(y, x))
+}
 
 #' @export
 vec_ptype2.numeric_version.smvr <- function(x, y, ...) {
@@ -245,7 +251,8 @@ vec_cast.character.smvr <- function(x, to, ...) {
 
 #' @export
 vec_cast.smvr.character <- function(x, to, ...) {
-  parse_semver(x)
+  parse_semver(x) |>
+    vec_cast(to)
 }
 
 #' @export
