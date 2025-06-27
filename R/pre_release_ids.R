@@ -78,7 +78,7 @@ new_pre_release_ids <- function(...) {
   # because of assigning more than the components
   # is not allowed.
   n_dots <- length(dots)
-  filling <- if (n_dots < DEFAULT_ID_LENGTH) {
+  filling <- if (n_dots != 0L && n_dots < DEFAULT_ID_LENGTH) {
     rep_len(new_pre_release_identifier(""), DEFAULT_ID_LENGTH - n_dots)
   } else {
     new_pre_release_identifier()
@@ -89,23 +89,24 @@ new_pre_release_ids <- function(...) {
     (\(x) set_names(x, sprintf("id%d", seq_along(x))))() |>
     new_data_frame()
 
-  # For each row, check that after the first empty, all subsequent ids are also empty
-  # TODO: rewrite with reduce
-  width <- ncol(values)
-  if (width >= 2L) {
-    for (i in seq_len(nrow(values))) {
-      row_ids <- values[i, ]
-      first_empty <- which(row_ids == "")[1]
-      if (!is.na(first_empty) && first_empty < width) {
-        if (any(row_ids[(first_empty + 1):width] != "")) {
-          cli::cli_abort(c(
-            "All ids after the first empty must also be empty.",
-            x = "Problematic index: {i}"
-          ))
-        }
-      }
+  if (n_dots > 1L) {
+    # For each row, check that after the first empty,
+    # all subsequent ids are also empty
+    violated <- pmap(values, function(...) {
+      empties <- vec_c(..., .name_spec = zap()) == ""
+      after_empty <- accumulate(empties, \(acc, nxt) acc | nxt)
+      any(after_empty & !empties)
+    }) |>
+      list_unchop()
+
+    if (any(violated, na.rm = TRUE)) {
+      cli::cli_abort(c(
+        "All ids after the first empty must also be empty.",
+        x = "Problematic indices: {.val {which(violated)}}"
+      ))
     }
   }
+
   out <- new_rcrd(
     vec_cbind(
       is_empty = (values$id1 %||% new_pre_release_identifier()) ==
@@ -120,26 +121,17 @@ new_pre_release_ids <- function(...) {
   out
 }
 
-# TODO: rewrite with reduce
 #' @export
 format.pre_release_ids <- function(x, ...) {
-  n_id <- ncol(vec_data(x)) - 1L
-  if (n_id > 0L) {
-    ids <- format(field(x, "id1"))
-    if (n_id >= 2L) {
-      for (i in seq_len(n_id)[-1]) {
-        id <- format(field(x, paste0("id", i)))
-        ids <- ifelse(
-          !is.na(ids) & nzchar(ids) & !is.na(id) & nzchar(id),
-          paste0(ids, ".", id),
-          ids
-        )
-      }
-    }
-    ids
-  } else {
-    character()
-  }
+  vec_data(x)[, -1L] |>
+    format() |>
+    reduce(\(acc, nxt) {
+      ifelse(
+        !is.na(acc) & nzchar(acc) & !is.na(nxt) & nzchar(nxt),
+        sprintf("%s.%s", acc, nxt),
+        acc
+      )
+    })
 }
 
 #' @export

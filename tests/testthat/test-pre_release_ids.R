@@ -1,5 +1,13 @@
 test_that("pre_release_ids construction and empty rules", {
-  expect_snapshot(new_pre_release_ids("alpha", "", "1", "", ""), error = TRUE)
+  expect_snapshot(
+    new_pre_release_ids(
+      "alpha",
+      "",
+      c("", "foo", "bar", ""),
+      c("", "0", "", "0")
+    ),
+    error = TRUE
+  )
 })
 
 test_that("format.pre_release_ids works", {
@@ -7,6 +15,12 @@ test_that("format.pre_release_ids works", {
   expect_equal(format(x), "alpha.1")
   y <- new_pre_release_ids("alpha")
   expect_equal(format(y), "alpha")
+})
+
+test_that("print", {
+  expect_snapshot(new_pre_release_ids())
+  expect_snapshot(new_pre_release_ids("alpha", "1"))
+  expect_snapshot(new_pre_release_ids(c("", "alpha"), c("", "1")))
 })
 
 test_that("pre_release_ids comparison", {

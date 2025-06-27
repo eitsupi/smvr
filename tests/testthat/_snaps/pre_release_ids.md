@@ -1,11 +1,33 @@
 # pre_release_ids construction and empty rules
 
     Code
-      new_pre_release_ids("alpha", "", "1", "", "")
+      new_pre_release_ids("alpha", "", c("", "foo", "bar", ""), c("", "0", "", "0"))
     Condition
       Error in `new_pre_release_ids()`:
       ! All ids after the first empty must also be empty.
-      x Problematic index: 1
+      x Problematic indices: 2, 3, and 4
+
+# print
+
+    Code
+      new_pre_release_ids()
+    Output
+      new_pre_release_ids()
+
+---
+
+    Code
+      new_pre_release_ids("alpha", "1")
+    Output
+      alpha.1
+
+---
+
+    Code
+      new_pre_release_ids(c("", "alpha"), c("", "1"))
+    Output
+      <empty>
+      alpha.1
 
 # pre_release_ids comparison
 
