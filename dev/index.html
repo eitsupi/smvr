@@ -118,17 +118,6 @@
 </ul>
 </div>
 <div class="section level2">
-<h2 id="known-limitations">Known Limitations<a class="anchor" aria-label="anchor" href="#known-limitations"></a>
-</h2>
-<p>The number of pre-release identifier fields is limited to 5.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Only 5 pre-release fields are supported:</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="reference/smvr.html">parse_semver</a></span><span class="op">(</span><span class="st">"1.2.3-a.b.c.d.e.f"</span><span class="op">)</span><span class="op">)</span> <span class="co"># Having 6 dot separated identifiers</span></span>
-<span><span class="co">#&gt; Error in parse_semver("1.2.3-a.b.c.d.e.f") : </span></span>
-<span><span class="co">#&gt;   Unsupported pre-release identifiers in '1.2.3-a.b.c.d.e.f'.</span></span>
-<span><span class="co">#&gt; ! Only up to 5 pre-release identifiers are supported, got 6.</span></span></code></pre></div>
-</div>
-<div class="section level2">
 <h2 id="related-works">Related Works<a class="anchor" aria-label="anchor" href="#related-works"></a>
 </h2>
 <ul>
