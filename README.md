@@ -18,6 +18,12 @@ of version numbers, and integrates smoothly with tidyverse tools.
 
 ## Installation
 
+Install the latest release version from CRAN:
+
+``` r
+install.packages("smvr")
+```
+
 The development version can be installed from GitHub:
 
 ``` r
