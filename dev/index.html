@@ -121,6 +121,7 @@
 <h2 id="related-works">Related Works<a class="anchor" aria-label="anchor" href="#related-works"></a>
 </h2>
 <ul>
+<li>The numeric version class vector can be crated with <code><a href="https://rdrr.io/r/base/numeric_version.html" class="external-link">numeric_version()</a></code> in base R works well for versions that only have MAJOR.MINOR.PATCH. But it does not support pre-release identifiers of SemVer, so in the case of including pre-release versions, it is not suitable.</li>
 <li>The <a href="https://CRAN.R-project.org/package=semver" class="external-link">semver</a> package is a wrapper for a C++ SemVer parser. The class provided by this package is a special list, which does not work well with <a href="https://tibble.tidyverse.org/" class="external-link">tibble</a> and <a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a>.</li>
 </ul>
 </div>
