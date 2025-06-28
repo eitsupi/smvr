@@ -10,6 +10,10 @@
 - `parse_semver()`, `parse_pre_release_ids()`, and `new_pre_release_ids()` have been rewritten
   to significantly improve string processing performance. (#15)
 
+## Bug fixes
+
+- Negative numbers can no longer be cast to `pre_release_identifier` and treated as alphanumeric values. (#16)
+
 # smvr 0.1.0
 
 Initial release.

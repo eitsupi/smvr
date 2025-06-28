@@ -174,6 +174,13 @@ vec_cast.integer.pre_release_identifier <- function(x, to, ...) {
 
 #' @export
 vec_cast.pre_release_identifier.integer <- function(x, to, ...) {
+  if (any(x < 0L, na.rm = TRUE)) {
+    cli::cli_abort(c(
+      "Cannot cast negative integer to pre_release_identifier.",
+      "x" = "Problematic values: {.val {x[x < 0L]}}"
+    ))
+  }
+
   new_pre_release_identifier(as.character(x))
 }
 
@@ -186,5 +193,6 @@ vec_cast.double.pre_release_identifier <- function(x, to, ...) {
 
 #' @export
 vec_cast.pre_release_identifier.double <- function(x, to, ...) {
-  new_pre_release_identifier(as.character(x))
+  x <- vec_cast(x, integer(), call = caller_env())
+  vec_cast(x, to, ...)
 }
