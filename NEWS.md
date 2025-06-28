@@ -12,8 +12,7 @@
 
 ## Bug fixes
 
-- Negative numbers can no longer be cast to `pre_release_identifier` and treated as alphanumeric values.
-  This change is made to avoid confusion for users.
+- Negative numbers can no longer be cast to `pre_release_identifier` and treated as alphanumeric values. (#16)
 
 # smvr 0.1.0
 
