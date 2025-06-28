@@ -34,6 +34,9 @@
 #' @return A [smvr] class vector.
 #' @seealso
 #' - [as_smvr()] to convert other classes to [smvr].
+#' - [extract-component] functions to extract components of a [smvr] object.
+#'   (Operations opposite to [smvr()]).
+#' - [update-version] functions to update components of a [smvr] object.
 #' @examples
 #' # SemVer versions from components
 #' smvr(4, 1:5)

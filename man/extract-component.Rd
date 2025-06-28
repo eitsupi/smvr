@@ -80,6 +80,7 @@ extract_patch(num_ver)
 }
 \seealso{
 \itemize{
+\item \code{\link[=smvr]{smvr()}} to create a \link{smvr} object from components.
 \item \link{check-component} functions for checking if
 \link{smvr} object has a specific component.
 }
