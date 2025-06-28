@@ -17,40 +17,32 @@ parse_semver <- function(x) {
     "(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?", # build
     "$"
   )
-  m <- regexec(pattern, x)
-  parts <- regmatches(x, m)
-  # If parsing fails, parts will be empty list or have length 1
-  valid <- vapply(parts, function(p) length(p) > 0, logical(1))
-  major <- minor <- patch <- rep(NA_integer_, length(x))
-  pre <- vector("list", length(x))
-  build <- rep(NA_character_, length(x))
-  for (i in seq_along(x)) {
-    if (valid[i]) {
-      major[i] <- as.integer(parts[[i]][2])
-      minor[i] <- as.integer(parts[[i]][3])
-      patch[i] <- as.integer(parts[[i]][4])
-      pre_str <- parts[[i]][5]
-      if (!is.na(pre_str) && nzchar(pre_str)) {
-        ids <- strsplit(pre_str, "\\.")[[1]]
-        pre[[i]] <- do.call(new_pre_release_ids, as.list(ids))
-      } else {
-        pre[[i]] <- new_pre_release_ids(new_pre_release_identifier(""))
-      }
-      build[i] <- if (length(parts[[i]]) >= 6) parts[[i]][6] else NA_character_
-    } else {
-      if (!is.na(x[i])) {
-        cli::cli_warn(c(
-          `!` = "Cannot parse '{x[i]}' as semantic version, setting to {.code NA}."
-        ))
-      }
-      pre[[i]] <- new_pre_release_ids(new_pre_release_identifier(""))
-    }
+  parts <- regmatches(x, regexec(pattern, x))
+
+  invalid <- map_lgl(parts, \(x) length(x) == 0L) & !is.na(x)
+
+  if (any(invalid)) {
+    cli::cli_warn(c(
+      `!` = "Invalid version strings detected, setting to {.code NA}.",
+      x = "Problematic values: {.val {x[invalid]}}"
+    ))
   }
+
+  major <- map_chr(parts, \(x) x[2]) |>
+    as.integer()
+  minor <- map_chr(parts, \(x) x[3]) |>
+    as.integer()
+  patch <- map_chr(parts, \(x) x[4]) |>
+    as.integer()
+  pre_release <- map_chr(parts, \(x) x[5]) |>
+    parse_pre_release_ids()
+  build <- map_chr(parts, \(x) x[6])
+
   smvr(
     major = major,
     minor = minor,
     patch = patch,
-    pre_release = vec_c(!!!pre),
+    pre_release = pre_release,
     build = build
   )
 }
@@ -65,25 +57,27 @@ parse_pre_release_ids <- function(x) {
   x <- vec_cast(x, character(), call = caller_env())
 
   pattern <- "^([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)$"
-  m <- regexec(pattern, x)
-  parts <- regmatches(x, m)
-  pre <- vector("list", length(x))
-  for (i in seq_along(x)) {
-    if (is.na(x[i])) {
-      pre[[i]] <- new_pre_release_ids(NA)
-    } else if (length(parts[[i]]) == 0) {
-      if (nzchar(x[i])) {
-        cli::cli_warn(c(
-          `!` = "Cannot parse '{x[i]}' as pre-release identifiers, setting to {.code NA}."
-        ))
-        pre[[i]] <- new_pre_release_ids(NA)
-      } else {
-        pre[[i]] <- new_pre_release_ids("")
-      }
-    } else {
-      ids <- strsplit(parts[[i]][1], "\\.")[[1]]
-      pre[[i]] <- do.call(new_pre_release_ids, as.list(ids))
-    }
+  parts <- regmatches(x, regexec(pattern, x))
+
+  invalid <- map_lgl(parts, \(x) length(x) == 0L) & !is.na(x) & nzchar(x)
+
+  if (any(invalid)) {
+    cli::cli_warn(c(
+      `!` = "Invalid pre-release ids detected, setting to {.code NA}.",
+      x = "Problematic values: {.val {x[invalid]}}"
+    ))
   }
-  vec_c(!!!pre)
+
+  values <- vec_rbind(
+    !!!strsplit(map_chr(parts, \(x) x[2]), "\\."),
+    .name_repair = "unique_quiet"
+  )
+  # Fill with empty strings to ensure each row has the same length
+  values[is.na(values)] <- ""
+
+  out <- new_pre_release_ids(!!!values)
+
+  # Fix NAs
+  out[is.na(x)] <- NA
+  out
 }

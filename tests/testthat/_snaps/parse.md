@@ -23,7 +23,8 @@
       parse_semver("")
     Condition
       Warning:
-      ! Cannot parse '' as semantic version, setting to `NA`.
+      ! Invalid version strings detected, setting to `NA`.
+      x Problematic values: ""
     Output
       <smvr[1]>
       [1] <NA>
@@ -34,7 +35,8 @@
       parse_semver("01.2.3")
     Condition
       Warning:
-      ! Cannot parse '01.2.3' as semantic version, setting to `NA`.
+      ! Invalid version strings detected, setting to `NA`.
+      x Problematic values: "01.2.3"
     Output
       <smvr[1]>
       [1] <NA>
@@ -45,7 +47,8 @@
       parse_semver("1.02.3")
     Condition
       Warning:
-      ! Cannot parse '1.02.3' as semantic version, setting to `NA`.
+      ! Invalid version strings detected, setting to `NA`.
+      x Problematic values: "1.02.3"
     Output
       <smvr[1]>
       [1] <NA>
@@ -56,7 +59,8 @@
       parse_semver("1.2.03")
     Condition
       Warning:
-      ! Cannot parse '1.2.03' as semantic version, setting to `NA`.
+      ! Invalid version strings detected, setting to `NA`.
+      x Problematic values: "1.2.03"
     Output
       <smvr[1]>
       [1] <NA>
