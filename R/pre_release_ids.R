@@ -94,6 +94,7 @@ new_pre_release_ids <- function(...) {
     # all subsequent ids are also empty
     dotted <- pmap(format(values), function(...) paste("", ..., sep = ".")) |>
       list_unchop()
+    # Detect any non-empty ID following an empty component.
     violated <- grepl("\\.{2,}[^.]", dotted)
 
     if (any(violated, na.rm = TRUE)) {
