@@ -30,7 +30,28 @@ test_that("NA can be cast to pre_release_identifier", {
   )
 })
 
-test_that("print(<>pre_release_identifier>) works", {
+test_that("numeric values can be cast to pre_release_identifier", {
+  expect_identical(
+    vec_cast(0:3, new_pre_release_identifier()),
+    new_pre_release_identifier(as.character(0:3))
+  )
+  expect_identical(
+    vec_cast(as.double(0:3), new_pre_release_identifier()),
+    new_pre_release_identifier(as.character(0:3))
+  )
+
+  expect_snapshot(vec_cast(-2:2, new_pre_release_identifier()), error = TRUE)
+  expect_snapshot(
+    vec_cast(c(1.2, 1), new_pre_release_identifier()),
+    error = TRUE
+  )
+  expect_snapshot(
+    vec_cast(c(-1, 1), new_pre_release_identifier()),
+    error = TRUE
+  )
+})
+
+test_that("print(<pre_release_identifier>) works", {
   expect_snapshot(
     new_pre_release_identifier(
       c("", "-1", "0", "00", "1", "Foo", "bar", NA)
