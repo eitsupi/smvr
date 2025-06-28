@@ -87,4 +87,6 @@ tibble::tibble(version = v) |>
   package has a SemVer parser written in R. It creates a single version
   as an `{R6}` object, which is not vectorized. Also, at the moment
   (version 0.1.0, published 2020-02-22 on CRAN), it has a bug in
-  comparing pre-release versions, so it does not work correctly.
+  comparing pre-release versions[^1], so it does not work correctly.
+
+[^1]: <https://github.com/ajwtech/semverutils/issues/2>
