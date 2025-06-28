@@ -78,6 +78,6 @@ parse_pre_release_ids <- function(x) {
   out <- new_pre_release_ids(!!!values)
 
   # Fix NAs
-  out[is.na(x)] <- NA
+  out[is.na(x) | invalid] <- NA
   out
 }
