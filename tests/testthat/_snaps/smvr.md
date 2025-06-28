@@ -39,9 +39,8 @@
       vec_cast(c("1.0.0", "1.0", "1.0.0+build", "1.0.0-alpha.1", "foo"), smvr())
     Condition
       Warning:
-      ! Cannot parse '1.0' as semantic version, setting to `NA`.
-      Warning:
-      ! Cannot parse 'foo' as semantic version, setting to `NA`.
+      ! Invalid version strings detected, setting to `NA`.
+      x Problematic values: "1.0" and "foo"
     Output
       <smvr[5]>
       [1] 1.0.0         <NA>          1.0.0+build   1.0.0-alpha.1 <NA>         

@@ -92,12 +92,10 @@ new_pre_release_ids <- function(...) {
   if (n_dots > 1L) {
     # For each row, check that after the first empty,
     # all subsequent ids are also empty
-    violated <- pmap(values, function(...) {
-      empties <- vec_c(..., .name_spec = zap()) == ""
-      after_empty <- accumulate(empties, \(acc, nxt) acc | nxt)
-      any(after_empty & !empties)
-    }) |>
+    dotted <- pmap(format(values), function(...) paste("", ..., sep = ".")) |>
       list_unchop()
+    # Detect any non-empty ID following an empty component.
+    violated <- grepl("\\.{2,}[^.]", dotted)
 
     if (any(violated, na.rm = TRUE)) {
       cli::cli_abort(c(
