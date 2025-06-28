@@ -123,9 +123,12 @@
 <ul>
 <li>The numeric version class vector can be crated with <code><a href="https://rdrr.io/r/base/numeric_version.html" class="external-link">numeric_version()</a></code> in base R works well for versions that only have MAJOR.MINOR.PATCH. But it does not support pre-release identifiers of SemVer, so in the case of including pre-release versions, it is not suitable.</li>
 <li>The <a href="https://CRAN.R-project.org/package=semver" class="external-link">semver</a> package is a wrapper for a C++ SemVer parser. The class provided by this package is a special list, which does not work well with <a href="https://tibble.tidyverse.org/" class="external-link">tibble</a> and <a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a>.</li>
+<li>The <a href="https://CRAN.R-project.org/package=semverutils" class="external-link">semverutils</a> package has a SemVer parser written in R. It creates a single version as an <a href="https://r6.r-lib.org" class="external-link">R6</a> object, which is not vectorized. Also, at the moment (version 0.1.0, published 2020-02-22 on CRAN), it has a bug in comparing pre-release versions<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;&lt;a href="https://github.com/ajwtech/semverutils/issues/2" class="external-link uri"&gt;https://github.com/ajwtech/semverutils/issues/2&lt;/a&gt;&lt;/p&gt;'><sup>1</sup></a>, so it does not work correctly.</li>
 </ul>
 </div>
 </div>
+
+
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
