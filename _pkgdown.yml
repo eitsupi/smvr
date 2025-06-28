@@ -10,8 +10,16 @@ reference:
     desc: >
       Constructor functions and parser functions for the vector classes
       represent the SemVer versioning scheme.
+  - subtitle: SemVer
+    desc: >
+      The `smvr` class represents versions.
     contents:
       - smvr
+  - subtitle: Pre-release identifier components
+    desc: >
+      `pre_release_ids` and `pre_release_identifier` are used to
+      represent pre-release identifiers in versions.
+    contents:
       - pre_release_ids
       - pre_release_identifier
   - title: Manipulation
