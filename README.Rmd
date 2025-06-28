@@ -45,13 +45,13 @@ pak::pak("eitsupi/smvr")
 library(smvr)
 
 # Parse version characters into smvr objects
-v <- parse_semver(c("1.0.0", "1.0.0-alpha", "1.0.0-alpha.1", "1.0.1+20250621", "0.9.0"))
+v <- parse_semver(c("1.0.0", "1.0.0-alpha.2", "1.0.0-alpha.10", "1.0.1+20250621", "0.9.0"))
 
 # Sort versions
 sort(v)
 
 # Can compare with string notation
-v[v < "1.0.0"]
+v["1.0.0-alpha" < v & v < "1.0.0"]
 
 # Works with tibble data frame and dplyr
 tibble::tibble(version = v) |>
