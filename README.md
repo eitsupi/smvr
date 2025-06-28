@@ -7,6 +7,8 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/smvr)](https://CRAN.R-project.org/package=smvr)
+[![smvr status
+badge](https://eitsupi.r-universe.dev/smvr/badges/version)](https://eitsupi.r-universe.dev/smvr)
 <!-- badges: end -->
 
 Simple implementation of [Semantic Versioning
