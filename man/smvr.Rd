@@ -91,5 +91,8 @@ parse_semver("1.0.0-1") > "1.0.0"    # 1.0.0-1 is a pre-release version
 \seealso{
 \itemize{
 \item \code{\link[=as_smvr]{as_smvr()}} to convert other classes to \link{smvr}.
+\item \link{extract-component} functions to extract components of a \link{smvr} object.
+(Operations opposite to \code{\link[=smvr]{smvr()}}).
+\item \link{update-version} functions to update components of a \link{smvr} object.
 }
 }
