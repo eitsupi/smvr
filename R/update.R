@@ -102,7 +102,7 @@ mark_as_pre_release.smvr <- function(x, ids = "pre", ...) {
   }
   # Recycle ids if the length is 1
   field(x, "pre_release") <- if (length(ids) == 1L) {
-    rep(ids, length(x))
+    vec_rep(ids, length(x))
   } else {
     ids
   }
@@ -150,7 +150,7 @@ add_build_metadata.smvr <- function(x, metadata = "", ...) {
   }
   # Recycle metadata if the length is 1
   field(x, "build") <- if (length(metadata) == 1L) {
-    rep(metadata, length(x))
+    vec_rep(metadata, length(x))
   } else {
     metadata
   }
