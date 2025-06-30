@@ -79,7 +79,7 @@ new_pre_release_ids <- function(...) {
   # is not allowed.
   n_dots <- length(dots)
   filling <- if (n_dots != 0L && n_dots < DEFAULT_ID_LENGTH) {
-    rep_len(new_pre_release_identifier(""), DEFAULT_ID_LENGTH - n_dots)
+    vec_rep(new_pre_release_identifier(""), DEFAULT_ID_LENGTH - n_dots)
   } else {
     new_pre_release_identifier()
   }
@@ -176,7 +176,7 @@ ptype2_chr_ids_impl <- function(chr, ids) {
   # Or, if the ids have more identifiers, allows that length.
   n_ids <- ncol(vec_data(ids)) - 1L
   new_pre_release_ids(
-    !!!rep_len(new_pre_release_identifier(), max(DEFAULT_ID_LENGTH, n_ids))
+    !!!vec_rep(new_pre_release_identifier(), max(DEFAULT_ID_LENGTH, n_ids))
   )[0L]
 }
 
@@ -189,7 +189,7 @@ vec_cast.pre_release_ids.pre_release_ids <- function(x, to, ...) {
   } else {
     out <- vec_data(x) |>
       vec_cbind(
-        !!!rep_len(new_pre_release_identifier(""), width_id_to - width_id_x),
+        !!!vec_rep(new_pre_release_identifier(""), width_id_to - width_id_x),
         .name_repair = "minimal"
       ) |>
       set_names(
