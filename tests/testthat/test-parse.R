@@ -26,13 +26,15 @@ test_that("parse_pre_release_ids rejects invalid pre-release identifiers", {
 })
 
 test_that("parse_pre_release_ids_impl does not rejects invalid pre-release identifiers", {
-  expect_snapshot(parse_pre_release_ids_impl(c(
-    "alpha..beta",
-    "..",
-    "--",
-    "1.2.3.",
+  expect_snapshot(parse_pre_release_ids_impl(
+    c(
+      "alpha..",
+      "..",
+      "--",
+      "1.2.3."
+    ),
     check = FALSE
-  )))
+  ))
 })
 
 test_that("Supports more than 5 pre-release identifiers", {
