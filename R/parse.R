@@ -35,7 +35,10 @@ parse_semver <- function(x) {
   patch <- map_chr(parts, \(x) x[4]) |>
     as.integer()
   pre_release <- map_chr(parts, \(x) x[5]) |>
-    parse_pre_release_ids()
+    parse_pre_release_ids_impl(
+      call = caller_env(),
+      check = FALSE
+    )
   build <- map_chr(parts, \(x) x[6])
 
   smvr(
@@ -54,22 +57,56 @@ parse_semver <- function(x) {
 #' @order 2
 #' @export
 parse_pre_release_ids <- function(x) {
-  x <- vec_cast(x, character(), call = caller_env())
+  parse_pre_release_ids_impl(x, call = caller_env())
+}
 
-  pattern <- "^([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)$"
-  parts <- regmatches(x, regexec(pattern, x))
+#' Internal implementation of parsing function for pre-release ids
+#'
+#' This is an internal function that parses pre-release identifiers
+#' from a character vector. Only the difference to [parse_pre_release_ids()]
+#' is that it allows to skip the validation step.
+#' @inherit parse_pre_release_ids return
+#' @inheritParams pre_release_ids
+#' @inheritParams cli::cli_warn
+#' @param ... Ignored.
+#' @param check `TRUE` (default) or `FALSE`. If `TRUE`, the function will
+#'   check if the pre-release identifiers are valid according to the
+#'   regex pattern. If `FALSE`, it will skip the validation step.
+#' @keywords internal
+parse_pre_release_ids_impl <- function(
+  x,
+  ...,
+  call = caller_env(),
+  check = TRUE
+) {
+  x <- vec_cast(x, character(), call = call)
 
-  invalid <- map_lgl(parts, \(x) length(x) == 0L) & !is.na(x) & nzchar(x)
+  if (check) {
+    pattern <- "^([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)$"
+    parts <- regmatches(x, regexec(pattern, x))
 
-  if (any(invalid)) {
-    cli::cli_warn(c(
-      `!` = "Invalid pre-release ids detected, setting to {.code NA}.",
-      x = "Problematic values: {.val {x[invalid]}}"
-    ))
+    invalid <- map_lgl(parts, \(x) vec_size(x) == 0L) & !is.na(x) & nzchar(x)
+
+    if (any(invalid)) {
+      cli::cli_warn(
+        c(
+          `!` = "Invalid pre-release ids detected, setting to {.code NA}.",
+          x = "Problematic values: {.val {x[invalid]}}"
+        ),
+        call = call
+      )
+    }
+
+    checked <- map_chr(parts, \(x) x[2])
+  } else {
+    checked <- x
+    # Avoid character(0) after splitting
+    checked[!nzchar(x)] <- NA_character_
+    invalid <- FALSE
   }
 
   values <- vec_rbind(
-    !!!strsplit(map_chr(parts, \(x) x[2]), "\\."),
+    !!!strsplit(checked, "\\."),
     .name_repair = "unique_quiet"
   )
   # Fill with empty strings to ensure each row has the same length
