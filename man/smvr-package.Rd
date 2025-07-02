@@ -3,9 +3,9 @@
 \docType{package}
 \name{smvr-package}
 \alias{smvr-package}
-\title{smvr: Simple Implementation of Semantic Versioning}
+\title{smvr: Simple Implementation of Semantic Versioning (SemVer)}
 \description{
-Simple implementation of Semantic Versioning 2.0.0 on the 'vctrs' package. This package provides a simple way to create, compare, and manipulate semantic versions in R. It is designed to be lightweight and easy to use.
+Simple implementation of Semantic Versioning 2.0.0 ('SemVer') on the 'vctrs' package. This package provides a simple way to create, compare, and manipulate semantic versions in R. It is designed to be lightweight and easy to use.
 }
 \seealso{
 Useful links:
