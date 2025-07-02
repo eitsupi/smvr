@@ -28,7 +28,7 @@ increment_patch(x, ...)
 
 mark_as_pre_release(x, ...)
 
-\method{mark_as_pre_release}{smvr}(x, ids = "pre", ...)
+\method{mark_as_pre_release}{smvr}(x, ids, ...)
 
 add_build_metadata(x, ...)
 
@@ -39,9 +39,11 @@ add_build_metadata(x, ...)
 
 \item{...}{Additional arguments passed to methods.}
 
-\item{ids}{A character vector of pre-release identifiers.}
+\item{ids}{Something can be cast to \link{pre_release_ids} representing the
+pre-release identifiers, length must be 1 or the same as \code{x}.}
 
-\item{metadata}{A character vector of build metadata.}
+\item{metadata}{A character vector of build metadata,
+length must be 1 or the same as \code{x}.}
 }
 \value{
 An updated version object with the specified changes applied.
@@ -51,6 +53,7 @@ These functions allows to update the components of version objects.
 \itemize{
 \item \code{increment_major()}, \code{increment_minor()}, and \code{increment_patch()} update
 the major, minor, and patch version numbers respectively.
+Note that these functions reset the pre-release and build metadata to empty.
 \item \code{mark_as_pre_release()} marks the version as a pre-release version.
 \item \code{add_build_metadata()} adds build metadata to the version.
 }
@@ -61,6 +64,6 @@ v <- parse_semver(c("0.9.9", "1.0.0-a.1", "1.1.0+1"))
 increment_major(v)
 increment_minor(v)
 increment_patch(v)
-mark_as_pre_release(v, ids = c("pre.1"))
+mark_as_pre_release(v, ids = "rc.1")
 add_build_metadata(v, metadata = "build.1")
 }

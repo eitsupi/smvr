@@ -5,13 +5,16 @@
 #'
 #' - `increment_major()`, `increment_minor()`, and `increment_patch()` update
 #'   the major, minor, and patch version numbers respectively.
+#'   Note that these functions reset the pre-release and build metadata to empty.
 #' - `mark_as_pre_release()` marks the version as a pre-release version.
 #' - `add_build_metadata()` adds build metadata to the version.
 #'
 #' @param x An version object
 #' @param ... Additional arguments passed to methods.
-#' @param ids A character vector of pre-release identifiers.
-#' @param metadata A character vector of build metadata.
+#' @param ids Something can be cast to [pre_release_ids] representing the
+#'   pre-release identifiers, length must be 1 or the same as `x`.
+#' @param metadata A character vector of build metadata,
+#'   length must be 1 or the same as `x`.
 #' @return An updated version object with the specified changes applied.
 #' @examples
 #' v <- parse_semver(c("0.9.9", "1.0.0-a.1", "1.1.0+1"))
@@ -19,7 +22,7 @@
 #' increment_major(v)
 #' increment_minor(v)
 #' increment_patch(v)
-#' mark_as_pre_release(v, ids = c("pre.1"))
+#' mark_as_pre_release(v, ids = "rc.1")
 #' add_build_metadata(v, metadata = "build.1")
 #' @name update-version
 NULL
@@ -89,7 +92,7 @@ mark_as_pre_release <- function(x, ...) {
 
 #' @rdname update-version
 #' @export
-mark_as_pre_release.smvr <- function(x, ids = "pre", ...) {
+mark_as_pre_release.smvr <- function(x, ids, ...) {
   ids <- vec_cast(ids, new_pre_release_ids())
   if (anyNA(ids)) {
     cli::cli_abort(
