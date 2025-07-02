@@ -12,8 +12,9 @@
 #' @param x An version object
 #' @param ... Additional arguments passed to methods.
 #' @param ids Something can be cast to [pre_release_ids] representing the
-#'   pre-release identifiers.
-#' @param metadata A character vector of build metadata.
+#'   pre-release identifiers, length must be 1 or the same as `x`.
+#' @param metadata A character vector of build metadata,
+#'   length must be 1 or the same as `x`.
 #' @return An updated version object with the specified changes applied.
 #' @examples
 #' v <- parse_semver(c("0.9.9", "1.0.0-a.1", "1.1.0+1"))

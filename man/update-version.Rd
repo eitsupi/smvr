@@ -40,9 +40,10 @@ add_build_metadata(x, ...)
 \item{...}{Additional arguments passed to methods.}
 
 \item{ids}{Something can be cast to \link{pre_release_ids} representing the
-pre-release identifiers.}
+pre-release identifiers, length must be 1 or the same as \code{x}.}
 
-\item{metadata}{A character vector of build metadata.}
+\item{metadata}{A character vector of build metadata,
+length must be 1 or the same as \code{x}.}
 }
 \value{
 An updated version object with the specified changes applied.
