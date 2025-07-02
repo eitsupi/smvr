@@ -4,6 +4,7 @@
 
 - `new_pre_release_ids()`'s arguments have been changed from `id1, id2, id3, id4, id5` to `...`.
   This allows for more than 5 pre-release identifiers to be specified. (#8)
+- `mark_as_pre_release()`'s `ids` argument no longer has a default value.
 
 ## Enhancements
 
