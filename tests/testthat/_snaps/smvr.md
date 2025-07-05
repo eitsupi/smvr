@@ -52,7 +52,7 @@
       numeric_version(character()))
     Condition
       Error in `vec_cast.numeric_version.smvr()`:
-      ! Pre-release `smvr` cannot be cast to `numeric_version`.
+      ! Pre-release <smvr> cannot be cast to <numeric_version>.
       x Problematic values: 1.0.0-a.1 and 1.0.0-a.2
 
 ---
@@ -62,7 +62,7 @@
       smvr())
     Condition
       Error in `vec_cast.smvr.numeric_version()`:
-      ! Cannot cast `numeric_version` with more than 3 components to `smvr`.
+      ! Cannot cast <numeric_version> with more than 3 components to <smvr>.
       x Problematic values: 1.2.3.4 and 1.2.3.4.5
 
 # invalid build metadata

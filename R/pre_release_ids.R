@@ -211,7 +211,7 @@ vec_cast.pre_release_ids.logical <- function(x, to, ...) {
   if (all(is.na(x))) {
     new_pre_release_ids(new_pre_release_identifier(x))
   } else {
-    cli::cli_abort("Cannot cast non-NA logical to pre_release_ids")
+    cli::cli_abort("Cannot cast non-NA logical to {.cls pre_release_ids}")
   }
 }
 

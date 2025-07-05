@@ -151,7 +151,9 @@ vec_cast.pre_release_identifier.logical <- function(x, to, ...) {
   if (all(is.na(x))) {
     new_pre_release_identifier(rep(NA_character_, length(x)))
   } else {
-    cli::cli_abort("Cannot cast non-NA logical to pre_release_identifier")
+    cli::cli_abort(
+      "Cannot cast non-NA logical to {.cls pre_release_identifier}"
+    )
   }
 }
 
@@ -176,7 +178,7 @@ vec_cast.integer.pre_release_identifier <- function(x, to, ...) {
 vec_cast.pre_release_identifier.integer <- function(x, to, ...) {
   if (any(x < 0L, na.rm = TRUE)) {
     cli::cli_abort(c(
-      "Cannot cast negative integer to pre_release_identifier.",
+      "Cannot cast negative integer to {.cls pre_release_identifier}.",
       "x" = "Problematic values: {.val {x[x < 0L]}}"
     ))
   }

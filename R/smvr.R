@@ -243,7 +243,7 @@ vec_cast.smvr.logical <- function(x, to, ...) {
   if (all(is.na(x))) {
     smvr(x)
   } else {
-    cli::cli_abort("Cannot cast non-NA logical to smvr")
+    cli::cli_abort("Cannot cast non-NA logical to {.cls smvr}")
   }
 }
 
@@ -263,7 +263,7 @@ vec_cast.numeric_version.smvr <- function(x, to, ...) {
   if (any(is_pre_release(x), na.rm = TRUE)) {
     cli::cli_abort(
       c(
-        "Pre-release {.code smvr} cannot be cast to {.code numeric_version}.",
+        "Pre-release {.cls smvr} cannot be cast to {.cls numeric_version}.",
         x = "Problematic values: {.val {x[is_pre_release(x)]}}"
       )
     )
@@ -282,7 +282,7 @@ vec_cast.smvr.numeric_version <- function(x, to, ...) {
   if (any(n_components > 3L)) {
     cli::cli_abort(
       c(
-        "Cannot cast {.code numeric_version} with more than 3 components to {.code smvr}.",
+        "Cannot cast {.cls numeric_version} with more than 3 components to {.cls smvr}.",
         x = "Problematic values: {.val {x[n_components > 3L]}}"
       )
     )
