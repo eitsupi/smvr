@@ -1,4 +1,4 @@
-# smvr (development version)
+# smvr 0.2.0
 
 ## Breaking changes
 
