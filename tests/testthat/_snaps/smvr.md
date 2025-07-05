@@ -70,7 +70,11 @@
     Code
       smvr(1, build = c("foo", "bar.baz", NA, "@foo"))
     Condition
-      Error in `smvr()`:
-      ! `build` must match the pattern "^[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*$".
+      Warning in `smvr()`:
+      ! Invalid build metadata detected, setting to `NA`.
       x Problematic values: "@foo"
+      i Build metadata should have the pattern: "^([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)$"
+    Output
+      <smvr[4]>
+      [1] 1.0.0+foo     1.0.0+bar.baz <NA>          <NA>         
 

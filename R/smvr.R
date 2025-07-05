@@ -83,7 +83,7 @@ smvr <- function(
   minor <- vec_cast(minor, integer())
   patch <- vec_cast(patch, integer())
   pre_release <- vec_cast(pre_release, new_pre_release_ids())
-  build <- vec_cast(build, character())
+  build <- vec_cast(build, new_parsed_chr_build_metadata())
 
   if (any(major < 0L, na.rm = TRUE)) {
     cli::cli_abort(
@@ -106,26 +106,6 @@ smvr <- function(
       c(
         "{.code patch} must be non-negative integer values.",
         x = "Problematic values: {.val {patch[patch < 0L]}}"
-      )
-    )
-  }
-  # Check the build metadata pattern
-  if (
-    any(
-      !grepl(BUILD_METADATA_PATTERN, build, perl = TRUE) &
-        nzchar(build) &
-        !is.na(build)
-    )
-  ) {
-    problematic_builds <- build[
-      !grepl(BUILD_METADATA_PATTERN, build, perl = TRUE) &
-        nzchar(build) &
-        !is.na(build)
-    ]
-    cli::cli_abort(
-      c(
-        "{.arg build} must match the pattern {.str {BUILD_METADATA_PATTERN}}.",
-        x = "Problematic values: {.val {problematic_builds}}"
       )
     )
   }
