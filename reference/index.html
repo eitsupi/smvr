@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">smvr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,53 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="vector-classes">Vector classes<a class="anchor" aria-label="anchor" href="#vector-classes"></a></h2>
+
+      <div class="section-desc"><p>Constructor functions and parser functions for the vector classes represent the SemVer versioning scheme.</p></div>
+
+
+    </div><div class="section level2">
+
+      <h3 id="semver">SemVer<a class="anchor" aria-label="anchor" href="#semver"></a></h3>
+      <div class="section-desc"><p>The <code>smvr</code> class represents versions.</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="smvr.html">smvr()</a></code> <code><a href="smvr.html">parse_semver()</a></code>
+
+        </dt>
+        <dd>A vector representing versions following Semantic Versioning</dd>
+      </dl></div><div class="section level2">
+
+      <h3 id="pre-release-identifier-components">Pre-release identifier components<a class="anchor" aria-label="anchor" href="#pre-release-identifier-components"></a></h3>
+      <div class="section-desc"><p><code>pre_release_ids</code> and <code>pre_release_identifier</code> are used to represent pre-release identifiers in versions.</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="pre_release_ids.html">new_pre_release_ids()</a></code> <code><a href="pre_release_ids.html">parse_pre_release_ids()</a></code>
+
+        </dt>
+        <dd>Pre-release identifiers</dd>
+      </dl><dl><dt>
+
+          <code><a href="pre_release_identifier.html">new_pre_release_identifier()</a></code>
+
+        </dt>
+        <dd>Single pre-release identifier</dd>
+      </dl></div><div class="section level2">
+      <h2 id="manipulation">Manipulation<a class="anchor" aria-label="anchor" href="#manipulation"></a></h2>
 
 
 
@@ -56,6 +102,12 @@
         <dd>Convert to <code>smvr</code> vector</dd>
       </dl><dl><dt>
 
+          <code><a href="is_smvr.html">is_smvr()</a></code>
+
+        </dt>
+        <dd>Check if an object is a <code>smvr</code> object</dd>
+      </dl><dl><dt>
+
           <code><a href="check-component.html">is_pre_release()</a></code> <code><a href="check-component.html">has_build_metadata()</a></code>
 
         </dt>
@@ -68,36 +120,13 @@
         <dd>Extract each component of version numbers/labels</dd>
       </dl><dl><dt>
 
-          <code><a href="is_smvr.html">is_smvr()</a></code>
-
-        </dt>
-        <dd>Check if an object is a <code>smvr</code> object</dd>
-      </dl><dl><dt>
-
-          <code><a href="new_pre_release_identifier.html">new_pre_release_identifier()</a></code>
-
-        </dt>
-        <dd>Single pre-release identifier</dd>
-      </dl><dl><dt>
-
-          <code><a href="new_pre_release_ids.html">new_pre_release_ids()</a></code> <code><a href="new_pre_release_ids.html">parse_pre_release_ids()</a></code>
-
-        </dt>
-        <dd>Pre-release identifiers</dd>
-      </dl><dl><dt>
-
-          <code><a href="smvr.html">parse_semver()</a></code> <code><a href="smvr.html">smvr()</a></code>
-
-        </dt>
-        <dd>A vector representing versions following Semantic Versioning</dd>
-      </dl><dl><dt>
-
           <code><a href="update-version.html">increment_major()</a></code> <code><a href="update-version.html">increment_minor()</a></code> <code><a href="update-version.html">increment_patch()</a></code> <code><a href="update-version.html">mark_as_pre_release()</a></code> <code><a href="update-version.html">add_build_metadata()</a></code>
 
         </dt>
         <dd>Update version components</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

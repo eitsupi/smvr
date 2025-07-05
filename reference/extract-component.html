@@ -11,7 +11,7 @@ patch numbers, or, pre-release identifiers and build metadata."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">smvr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@ patch numbers, or, pre-release identifiers and build metadata."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Extract each component of version numbers/labels</h1>
-      <small class="dont-index">Source: <a href="https://github.com/eitsupi/smvr/blob/v0.1.0/R/extract.R" class="external-link"><code>R/extract.R</code></a>, <a href="https://github.com/eitsupi/smvr/blob/v0.1.0/R/numeric_version.R" class="external-link"><code>R/numeric_version.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/eitsupi/smvr/blob/v0.2.0/R/extract.R" class="external-link"><code>R/extract.R</code></a>, <a href="https://github.com/eitsupi/smvr/blob/v0.2.0/R/numeric_version.R" class="external-link"><code>R/numeric_version.R</code></a></small>
       <div class="d-none name"><code>extract-component.Rd</code></div>
     </div>
 
@@ -102,13 +102,14 @@ patch numbers, or, pre-release identifiers and build metadata.</p>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>The extracted component of the version object.</p><ul><li><p><code>extract_major()</code>, <code>extract_minor()</code>, and
 <code>extract_patch()</code> return integer.</p></li>
-<li><p><code>extract_pre_release_ids()</code> returns <a href="new_pre_release_ids.html">pre_release_ids</a>.</p></li>
+<li><p><code>extract_pre_release_ids()</code> returns <a href="pre_release_ids.html">pre_release_ids</a>.</p></li>
 <li><p><code>extract_build_metadata()</code> returns character.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index">
-<ul><li><p><a href="check-component.html">check-component</a> functions for checking if
+<ul><li><p><code><a href="smvr.html">smvr()</a></code> to create a <a href="smvr.html">smvr</a> object from components.</p></li>
+<li><p><a href="check-component.html">check-component</a> functions for checking if
 <a href="smvr.html">smvr</a> object has a specific component.</p></li>
 </ul></div>
     </div>

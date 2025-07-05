@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Simple Implementation of Semantic Versioning • smvr</title>
+<title>Simple Implementation of Semantic Versioning (SemVer) • smvr</title>
 <script src="lightswitch.js"></script><script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Simple Implementation of Semantic Versioning">
-<meta name="description" content="Simple implementation of Semantic Versioning 2.0.0 on the vctrs package. This package provides a simple way to create, compare, and manipulate semantic versions in R. It is designed to be lightweight and easy to use.">
-<meta property="og:description" content="Simple implementation of Semantic Versioning 2.0.0 on the vctrs package. This package provides a simple way to create, compare, and manipulate semantic versions in R. It is designed to be lightweight and easy to use.">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Simple Implementation of Semantic Versioning (SemVer)">
+<meta name="description" content="Simple implementation of Semantic Versioning 2.0.0 (SemVer) on the vctrs package. This package provides a simple way to create, compare, and manipulate semantic versions in R. It is designed to be lightweight and easy to use.">
+<meta property="og:description" content="Simple implementation of Semantic Versioning 2.0.0 (SemVer) on the vctrs package. This package provides a simple way to create, compare, and manipulate semantic versions in R. It is designed to be lightweight and easy to use.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">smvr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,17 +78,17 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://eitsupi.github.io/smvr/">smvr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Parse version characters into smvr objects</span></span>
-<span><span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/smvr.html">parse_semver</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1.0.0"</span>, <span class="st">"1.0.0-alpha"</span>, <span class="st">"1.0.0-alpha.1"</span>, <span class="st">"1.0.1+20250621"</span>, <span class="st">"0.9.0"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/smvr.html">parse_semver</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1.0.0"</span>, <span class="st">"1.0.0-alpha.2"</span>, <span class="st">"1.0.0-alpha.10"</span>, <span class="st">"1.0.1+20250621"</span>, <span class="st">"0.9.0"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Sort versions</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;smvr[5]&gt;</span></span>
-<span><span class="co">#&gt; [1] 0.9.0          1.0.0-alpha    1.0.0-alpha.1  1.0.0          1.0.1+20250621</span></span>
+<span><span class="co">#&gt; [1] 0.9.0          1.0.0-alpha.2  1.0.0-alpha.10 1.0.0          1.0.1+20250621</span></span>
 <span></span>
 <span><span class="co"># Can compare with string notation</span></span>
-<span><span class="va">v</span><span class="op">[</span><span class="va">v</span> <span class="op">&lt;</span> <span class="st">"1.0.0"</span><span class="op">]</span></span>
-<span><span class="co">#&gt; &lt;smvr[3]&gt;</span></span>
-<span><span class="co">#&gt; [1] 1.0.0-alpha   1.0.0-alpha.1 0.9.0</span></span>
+<span><span class="va">v</span><span class="op">[</span><span class="st">"1.0.0-alpha"</span> <span class="op">&lt;</span> <span class="va">v</span> <span class="op">&amp;</span> <span class="va">v</span> <span class="op">&lt;</span> <span class="st">"1.0.0"</span><span class="op">]</span></span>
+<span><span class="co">#&gt; &lt;smvr[2]&gt;</span></span>
+<span><span class="co">#&gt; [1] 1.0.0-alpha.2  1.0.0-alpha.10</span></span>
 <span></span>
 <span><span class="co"># Works with tibble data frame and dplyr</span></span>
 <span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>version <span class="op">=</span> <span class="va">v</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -101,8 +101,8 @@
 <span><span class="co">#&gt;          version `&gt;= 1.0.0` `pre-release`</span></span>
 <span><span class="co">#&gt;           &lt;smvr&gt; &lt;lgl&gt;      &lt;lgl&gt;        </span></span>
 <span><span class="co">#&gt; 1          0.9.0 FALSE      FALSE        </span></span>
-<span><span class="co">#&gt; 2    1.0.0-alpha FALSE      TRUE         </span></span>
-<span><span class="co">#&gt; 3  1.0.0-alpha.1 FALSE      TRUE         </span></span>
+<span><span class="co">#&gt; 2  1.0.0-alpha.2 FALSE      TRUE         </span></span>
+<span><span class="co">#&gt; 3 1.0.0-alpha.10 FALSE      TRUE         </span></span>
 <span><span class="co">#&gt; 4          1.0.0 TRUE       FALSE        </span></span>
 <span><span class="co">#&gt; 5 1.0.1+20250621 TRUE       FALSE</span></span></code></pre></div>
 </div>
@@ -117,27 +117,21 @@
 </ul>
 </div>
 <div class="section level2">
-<h2 id="known-limitations">Known Limitations<a class="anchor" aria-label="anchor" href="#known-limitations"></a>
-</h2>
-<p>The number of pre-release identifier fields is limited to 5.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Only 5 pre-release fields are supported:</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="reference/smvr.html">parse_semver</a></span><span class="op">(</span><span class="st">"1.2.3-a.b.c.d.e.f"</span><span class="op">)</span><span class="op">)</span> <span class="co"># Having 6 dot separated identifiers</span></span>
-<span><span class="co">#&gt; Error in parse_semver("1.2.3-a.b.c.d.e.f") : </span></span>
-<span><span class="co">#&gt;   Unsupported pre-release identifiers in '1.2.3-a.b.c.d.e.f'.</span></span>
-<span><span class="co">#&gt; ! Only up to 5 pre-release identifiers are supported, got 6.</span></span></code></pre></div>
-</div>
-<div class="section level2">
 <h2 id="related-works">Related Works<a class="anchor" aria-label="anchor" href="#related-works"></a>
 </h2>
 <ul>
+<li>The numeric version class vector can be crated with <code><a href="https://rdrr.io/r/base/numeric_version.html" class="external-link">numeric_version()</a></code> in base R works well for versions that only have MAJOR.MINOR.PATCH. But it does not support pre-release identifiers of SemVer, so in the case of including pre-release versions, it is not suitable.</li>
 <li>The <a href="https://CRAN.R-project.org/package=semver" class="external-link">semver</a> package is a wrapper for a C++ SemVer parser. The class provided by this package is a special list, which does not work well with <a href="https://tibble.tidyverse.org/" class="external-link">tibble</a> and <a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a>.</li>
+<li>The <a href="https://CRAN.R-project.org/package=semverutils" class="external-link">semverutils</a> package has a SemVer parser written in R. It creates a single version as an <a href="https://r6.r-lib.org" class="external-link">R6</a> object, which is not vectorized. Also, at the moment (version 0.1.0, published 2020-02-22 on CRAN), it has a bug in comparing pre-release versions<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;&lt;a href="https://github.com/ajwtech/semverutils/issues/2" class="external-link uri"&gt;https://github.com/ajwtech/semverutils/issues/2&lt;/a&gt;&lt;/p&gt;'><sup>1</sup></a>, so it does not work correctly.</li>
 </ul>
 </div>
 </div>
+
+
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
+<li><a href="https://cloud.r-project.org/package=smvr" class="external-link">View on CRAN</a></li>
 <li><a href="https://github.com/eitsupi/smvr/" class="external-link">Browse source code</a></li>
 <li><a href="https://github.com/eitsupi/smvr/issues" class="external-link">Report a bug</a></li>
 </ul>
@@ -166,12 +160,7 @@
 </ul>
 </div>
 
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://CRAN.R-project.org/package=smvr" class="external-link"><img src="https://www.r-pkg.org/badges/version/smvr" alt="CRAN status"></a></li>
-</ul>
-</div>
+
 
   </aside>
 </div>
