@@ -1,5 +1,7 @@
 # smvr (development version)
 
+# smvr 0.2.0
+
 ## Breaking changes
 
 - `new_pre_release_ids()`'s arguments have been changed from `id1, id2, id3, id4, id5` to `...`.
