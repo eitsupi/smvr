@@ -121,41 +121,26 @@ add_build_metadata <- function(x, ...) {
 #' @rdname update-version
 #' @export
 add_build_metadata.smvr <- function(x, metadata = "", ...) {
-  metadata <- vec_cast(metadata, character())
-  if (anyNA(metadata)) {
+  parsed <- suppressWarnings(vec_cast(
+    metadata,
+    new_parsed_chr_build_metadata()
+  ))
+
+  if (anyNA(parsed)) {
     cli::cli_abort(
       c(
         "Adding build metadata failed.",
-        x = "Invalid metadata: {.val {metadata[is.na(metadata)]}}",
-        i = "{.code NA} values are not allowed in {.arg metadata}."
+        x = "Invalid metadata: {.val {metadata[is.na(parsed)]}}",
+        i = "Invalid pattern or {.code NA} values are not allowed."
       )
     )
   }
-  # Check the build metadata pattern
-  if (
-    any(
-      !grepl(BUILD_METADATA_PATTERN, metadata, perl = TRUE) &
-        nzchar(metadata) &
-        !is.na(metadata)
-    )
-  ) {
-    problematic_builds <- metadata[
-      !grepl(BUILD_METADATA_PATTERN, metadata, perl = TRUE) &
-        nzchar(metadata) &
-        !is.na(metadata)
-    ]
-    cli::cli_abort(
-      c(
-        "{.arg metadata} must match the pattern {.str {BUILD_METADATA_PATTERN}}.",
-        x = "Problematic values: {.val {problematic_builds}}"
-      )
-    )
-  }
+
   # Recycle metadata if the length is 1
-  field(x, "build") <- if (length(metadata) == 1L) {
-    vec_rep(metadata, length(x))
+  field(x, "build") <- if (length(parsed) == 1L) {
+    vec_rep(parsed, length(x))
   } else {
-    metadata
+    parsed
   }
   x
 }

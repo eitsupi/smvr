@@ -89,5 +89,6 @@ extract_pre_release_ids.smvr <- function(x, ...) {
 #' @rdname extract-component
 #' @export
 extract_build_metadata.smvr <- function(x, ...) {
-  field(x, "build")
+  field(x, "build") |>
+    as.character()
 }

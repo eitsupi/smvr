@@ -35,11 +35,16 @@ parse_semver <- function(x) {
   patch <- map_chr(parts, \(x) x[4]) |>
     as.integer()
   pre_release <- map_chr(parts, \(x) x[5]) |>
-    parse_pre_release_ids_impl(
-      call = caller_env(),
-      check = FALSE
+    new_vctr(
+      class = "parsed_chr_pre_release_ids",
+      inherit_base_type = TRUE
+    ) |>
+    parse_pre_release_ids()
+  build <- map_chr(parts, \(x) x[6]) |>
+    new_vctr(
+      class = "parsed_chr_build_metadata",
+      inherit_base_type = TRUE
     )
-  build <- map_chr(parts, \(x) x[6])
 
   smvr(
     major = major,
@@ -57,56 +62,11 @@ parse_semver <- function(x) {
 #' @order 2
 #' @export
 parse_pre_release_ids <- function(x) {
-  parse_pre_release_ids_impl(x, call = caller_env())
-}
+  x <- vec_cast(x, new_parsed_chr_pre_release_ids(), call = call)
 
-#' Internal implementation of parsing function for pre-release ids
-#'
-#' This is an internal function that parses pre-release identifiers
-#' from a character vector. Only the difference to [parse_pre_release_ids()]
-#' is that it allows to skip the validation step.
-#' @inherit parse_pre_release_ids return
-#' @inheritParams pre_release_ids
-#' @inheritParams cli::cli_warn
-#' @param ... Ignored.
-#' @param check `TRUE` (default) or `FALSE`. If `TRUE`, the function will
-#'   check if the pre-release identifiers are valid according to the
-#'   regex pattern. If `FALSE`, it will skip the validation step.
-#' @keywords internal
-parse_pre_release_ids_impl <- function(
-  x,
-  ...,
-  call = caller_env(),
-  check = TRUE
-) {
-  x <- vec_cast(x, character(), call = call)
-
-  if (check) {
-    pattern <- "^([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)$"
-    parts <- regmatches(x, regexec(pattern, x))
-
-    invalid <- map_lgl(parts, \(x) vec_size(x) == 0L) & !is.na(x) & nzchar(x)
-
-    if (any(invalid)) {
-      cli::cli_warn(
-        c(
-          `!` = "Invalid pre-release ids detected, setting to {.code NA}.",
-          x = "Problematic values: {.val {x[invalid]}}"
-        ),
-        call = call
-      )
-    }
-
-    checked <- map_chr(parts, \(x) x[2])
-  } else {
-    checked <- x
-    # Avoid character(0) after splitting
-    checked[!nzchar(x)] <- NA_character_
-    invalid <- FALSE
-  }
-
+  # strsplit returns character(0) for empty strings
   values <- vec_rbind(
-    !!!strsplit(checked, "\\."),
+    !!!(strsplit(x, "\\.") |> map(\(chr) chr %0% "")),
     .name_repair = "unique_quiet"
   )
   # Fill with empty strings to ensure each row has the same length
@@ -115,6 +75,140 @@ parse_pre_release_ids_impl <- function(
   out <- new_pre_release_ids(!!!values)
 
   # Fix NAs
-  out[is.na(x) | invalid] <- NA
+  out[is.na(x)] <- NA
   out
+}
+
+#' Internal class for parsed pre-release identifiers strings
+#' @noRd
+new_parsed_chr_pre_release_ids <- function(
+  x = character(),
+  ...,
+  call = caller_env()
+) {
+  x <- vec_cast(x, character())
+
+  invalid <- !grepl(PRE_RELEASE_IDS_PATTERN, x, perl = TRUE) &
+    !is.na(x) &
+    nzchar(x)
+
+  if (any(invalid)) {
+    cli::cli_warn(
+      c(
+        `!` = "Invalid pre-release ids detected, setting to {.code NA}.",
+        x = "Problematic values: {.val {x[invalid]}}",
+        i = "Pre-release ids must match the pattern: {.val {PRE_RELEASE_IDS_PATTERN}}"
+      ),
+      call = call
+    )
+  }
+
+  parsed <- x
+  parsed[invalid] <- NA_character_
+
+  new_vctr(
+    parsed,
+    class = "parsed_chr_pre_release_ids",
+    inherit_base_type = TRUE
+  )
+}
+
+#' @export
+vec_cast.parsed_chr_pre_release_ids.parsed_chr_pre_release_ids <- function(
+  x,
+  to,
+  ...
+) {
+  x
+}
+
+#' @export
+vec_ptype2.character.parsed_chr_pre_release_ids <- function(x, y, ...) {
+  character()
+}
+#' @export
+vec_ptype2.parsed_chr_pre_release_ids.character <- function(x, y, ...) {
+  character()
+}
+
+#' @export
+vec_cast.character.parsed_chr_pre_release_ids <- function(x, to, ...) {
+  vec_data(x)
+}
+
+#' @export
+vec_cast.parsed_chr_pre_release_ids.character <- function(
+  x,
+  to,
+  ...,
+  call = caller_env()
+) {
+  new_parsed_chr_pre_release_ids(x, call = call)
+}
+
+#' Internal class for parsed pre-release identifiers strings
+#' @noRd
+new_parsed_chr_build_metadata <- function(
+  x = character(),
+  ...,
+  call = caller_env()
+) {
+  x <- vec_cast(x, character())
+
+  invalid <- !grepl(BUILD_METADATA_PATTERN, x, perl = TRUE) &
+    !is.na(x) &
+    nzchar(x)
+
+  if (any(invalid)) {
+    cli::cli_warn(
+      c(
+        `!` = "Invalid build metadata detected, setting to {.code NA}.",
+        x = "Problematic values: {.val {x[invalid]}}",
+        i = "Build metadata should have the pattern: {.str {BUILD_METADATA_PATTERN}}"
+      ),
+      call = call
+    )
+  }
+
+  parsed <- x
+  parsed[invalid] <- NA_character_
+
+  new_vctr(
+    parsed,
+    class = "parsed_chr_build_metadata",
+    inherit_base_type = TRUE
+  )
+}
+
+#' @export
+vec_cast.parsed_chr_build_metadata.parsed_chr_build_metadata <- function(
+  x,
+  to,
+  ...
+) {
+  x
+}
+
+#' @export
+vec_ptype2.character.parsed_chr_build_metadata <- function(x, y, ...) {
+  character()
+}
+#' @export
+vec_ptype2.parsed_chr_build_metadata.character <- function(x, y, ...) {
+  character()
+}
+
+#' @export
+vec_cast.character.parsed_chr_build_metadata <- function(x, to, ...) {
+  vec_data(x)
+}
+
+#' @export
+vec_cast.parsed_chr_build_metadata.character <- function(
+  x,
+  to,
+  ...,
+  call = caller_env()
+) {
+  new_parsed_chr_build_metadata(x, call = call)
 }

@@ -73,21 +73,12 @@
       Warning:
       ! Invalid pre-release ids detected, setting to `NA`.
       x Problematic values: "alpha..beta", "..", and "1.2.3."
+      i Pre-release ids must match the pattern: "^([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)$"
     Output
       <NA>
       <NA>
       --
       <NA>
-
-# parse_pre_release_ids_impl does not rejects invalid pre-release identifiers
-
-    Code
-      parse_pre_release_ids_impl(c("alpha..", "..", "--", "1.2.3."), check = FALSE)
-    Output
-      alpha
-      <empty>
-      --
-      1.2.3
 
 # Supports more than 5 pre-release identifiers
 

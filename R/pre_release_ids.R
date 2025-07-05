@@ -225,3 +225,6 @@ vec_cast.pre_release_ids.character <- function(x, to, ...) {
   parse_pre_release_ids(x) |>
     vec_cast(to)
 }
+
+#' @export
+vec_cast.pre_release_ids.parsed_chr_pre_release_ids <- vec_cast.pre_release_ids.character
