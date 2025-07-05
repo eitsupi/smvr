@@ -4,7 +4,7 @@
       vec_cast(-2:2, new_pre_release_identifier())
     Condition
       Error in `vec_cast.pre_release_identifier.integer()`:
-      ! Cannot cast negative integer to pre_release_identifier.
+      ! Cannot cast negative integer to <pre_release_identifier>.
       x Problematic values: -2 and -1
 
 ---
@@ -22,7 +22,7 @@
       vec_cast(c(-1, 1), new_pre_release_identifier())
     Condition
       Error in `vec_cast.pre_release_identifier.integer()`:
-      ! Cannot cast negative integer to pre_release_identifier.
+      ! Cannot cast negative integer to <pre_release_identifier>.
       x Problematic values: -1
 
 # print(<pre_release_identifier>) works
