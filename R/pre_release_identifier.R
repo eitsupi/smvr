@@ -149,7 +149,7 @@ vec_ptype2.integer.pre_release_identifier <- function(x, y, ...) {
 #' @export
 vec_cast.pre_release_identifier.logical <- function(x, to, ...) {
   if (all(is.na(x))) {
-    new_pre_release_identifier(rep(NA_character_, length(x)))
+    vec_init(new_pre_release_identifier(), length(x))
   } else {
     cli::cli_abort(
       "Cannot cast non-NA logical to {.cls pre_release_identifier}"
