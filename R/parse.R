@@ -19,7 +19,7 @@ parse_semver <- function(x) {
   )
   parts <- regmatches(x, regexec(pattern, x))
 
-  invalid <- map_lgl(parts, \(x) length(x) == 0L) & !is.na(x)
+  invalid <- lengths(parts) == 0L & !is.na(x)
 
   if (any(invalid)) {
     cli::cli_warn(c(
