@@ -257,7 +257,7 @@ vec_cast.numeric_version.smvr <- function(x, to, ...) {
 vec_cast.smvr.numeric_version <- function(x, to, ...) {
   values <- unclass(x)
   n_components <- values |>
-    map_int(length)
+    lengths()
 
   if (any(n_components > 3L)) {
     cli::cli_abort(
