@@ -34,7 +34,7 @@ alphanumeric identifiers.
 }
 \examples{
 id <- new_pre_release_identifier(
-  c("1", "2", "10", "01", "-1", "alpha", "beta", "", NA)
+  c("1", "2", "10", "0a", "-1", "alpha", "beta", "", NA)
 )
 id
 

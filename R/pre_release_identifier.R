@@ -22,7 +22,7 @@
 #'   (Concatenation of [pre_release_identifier]).
 #' @examples
 #' id <- new_pre_release_identifier(
-#'   c("1", "2", "10", "01", "-1", "alpha", "beta", "", NA)
+#'   c("1", "2", "10", "0a", "-1", "alpha", "beta", "", NA)
 #' )
 #' id
 #'
@@ -40,19 +40,22 @@ NULL
 new_pre_release_identifier <- function(x = character()) {
   x <- vec_cast(x, character(), call = caller_env())
 
+  is_empty <- !nzchar(x)
+
   # Only [0-9a-zA-Z-]* allowed
-  invalid <- !is.na(x) & !grepl("^[0-9a-zA-Z-]*$", x)
+  invalid <- !is.na(x) &
+    !grepl(sprintf("^%s$", PRE_RELEASE_IDENTIFIER_PATTERN), x, perl = TRUE) &
+    !is_empty
   if (any(invalid)) {
     cli::cli_abort(
       c(
-        "Identifier must comprise only ASCII alphanumerics and hyphens {.str [0-9a-zA-Z-]}.",
+        "Identifier must match the pattern: {.str ^{PRE_RELEASE_IDENTIFIER_PATTERN}$}",
         x = "Invalid values: {.val {x[invalid]}}"
       )
     )
   }
 
-  is_empty <- !nzchar(x)
-  is_num <- grepl("^[0-9]+$", x) & !grepl("^0[0-9]+", x)
+  is_num <- grepl("^[0-9]+$", x)
 
   alphanumeric_id <- x
   numeric_id <- double(length(x))

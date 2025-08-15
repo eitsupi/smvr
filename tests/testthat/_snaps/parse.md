@@ -65,19 +65,32 @@
       <smvr[1]>
       [1] <NA>
 
+---
+
+    Code
+      parse_semver("1.2.3-alpha.01")
+    Condition
+      Warning:
+      ! Invalid version strings detected, setting to `NA`.
+      x Problematic values: "1.2.3-alpha.01"
+    Output
+      <smvr[1]>
+      [1] <NA>
+
 # parse_pre_release_ids rejects invalid pre-release identifiers
 
     Code
-      parse_pre_release_ids(c("alpha..beta", "..", "--", "1.2.3."))
+      parse_pre_release_ids(c("alpha..beta", "..", "--", "1.2.3.", "1.01.100"))
     Condition
       Warning:
       ! Invalid pre-release ids detected, setting to `NA`.
-      x Problematic values: "alpha..beta", "..", and "1.2.3."
-      i Pre-release ids must match the pattern: "^([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)$"
+      x Problematic values: "alpha..beta", "..", "1.2.3.", and "1.01.100"
+      i Pre-release ids must match the pattern: "^((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*)$"
     Output
       <NA>
       <NA>
       --
+      <NA>
       <NA>
 
 # Supports more than 5 pre-release identifiers
