@@ -41,21 +41,20 @@ new_pre_release_identifier <- function(x = character()) {
   x <- vec_cast(x, character(), call = caller_env())
 
   is_empty <- !nzchar(x)
-
-  # Only [0-9a-zA-Z-]* allowed
-  invalid <- !is.na(x) &
+  is_invalid <- !is.na(x) &
     !grepl(sprintf("^%s$", PRE_RELEASE_IDENTIFIER_PATTERN), x, perl = TRUE) &
     !is_empty
-  if (any(invalid)) {
+
+  if (any(is_invalid)) {
     cli::cli_abort(
       c(
         "Identifier must match the pattern: {.str ^{PRE_RELEASE_IDENTIFIER_PATTERN}$}",
-        x = "Invalid values: {.val {x[invalid]}}"
+        x = "Invalid values: {.val {x[is_invalid]}}"
       )
     )
   }
 
-  is_num <- grepl("^(0|[1-9][0-9]*)$", x)
+  is_num <- grepl(r"(^(0|[1-9]\d*)$)", x)
 
   alphanumeric_id <- x
   numeric_id <- double(length(x))
