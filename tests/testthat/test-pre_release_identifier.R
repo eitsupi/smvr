@@ -12,7 +12,7 @@ test_that("pre_release_identifier: comparison and ordering", {
   )
 })
 
-test_that("digits starts with 0 should not allowed", {
+test_that("digits starting with 0 should not be allowed", {
   expect_snapshot(
     new_pre_release_identifier(c("0", "01", "10")),
     error = TRUE

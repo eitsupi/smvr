@@ -55,7 +55,7 @@ new_pre_release_identifier <- function(x = character()) {
     )
   }
 
-  is_num <- grepl("^[0-9]+$", x)
+  is_num <- grepl("^(0|[1-9][0-9]*)$", x)
 
   alphanumeric_id <- x
   numeric_id <- double(length(x))
