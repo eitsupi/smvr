@@ -1,5 +1,10 @@
 # smvr (development version)
 
+## Bug fixes
+
+- Numeric only pre-release identifiers starting with 0 (e.g., `01`) are no longer allowed,
+  and use the correct regular expression pattern from the SemVer 2.0.0 documentation (#31).
+
 # smvr 0.2.0
 
 ## Breaking changes

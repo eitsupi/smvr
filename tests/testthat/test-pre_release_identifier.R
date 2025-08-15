@@ -12,6 +12,13 @@ test_that("pre_release_identifier: comparison and ordering", {
   )
 })
 
+test_that("digits starting with 0 should not be allowed", {
+  expect_snapshot(
+    new_pre_release_identifier(c("0", "01", "10")),
+    error = TRUE
+  )
+})
+
 test_that("pre_release_identifier: type promotion and ptype2", {
   expect_identical(
     vec_c(new_pre_release_identifier("1"), "2"),
@@ -54,7 +61,7 @@ test_that("numeric values can be cast to pre_release_identifier", {
 test_that("print(<pre_release_identifier>) works", {
   expect_snapshot(
     new_pre_release_identifier(
-      c("", "-1", "0", "00", "1", "Foo", "bar", NA)
+      c("", "-1", "0", "1", "Foo", "bar", NA)
     )
   )
 })

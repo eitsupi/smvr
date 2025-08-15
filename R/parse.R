@@ -8,15 +8,7 @@
 parse_semver <- function(x) {
   x <- vec_cast(x, character(), call = caller_env())
 
-  pattern <- paste0(
-    "^",
-    "(0|[1-9][0-9]*)\\.", # major
-    "(0|[1-9][0-9]*)\\.", # minor
-    "(0|[1-9][0-9]*)", # patch
-    "(?:-([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?", # pre-release
-    "(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?", # build
-    "$"
-  )
+  pattern <- SEM_VER_PATTERN
   parts <- regmatches(x, regexec(pattern, x))
 
   invalid <- lengths(parts) == 0L & !is.na(x)
@@ -88,7 +80,7 @@ new_parsed_chr_pre_release_ids <- function(
 ) {
   x <- vec_cast(x, character())
 
-  invalid <- !grepl(PRE_RELEASE_IDS_PATTERN, x, perl = TRUE) &
+  invalid <- !grepl(sprintf("^%s$", PRE_RELEASE_IDS_PATTERN), x, perl = TRUE) &
     !is.na(x) &
     nzchar(x)
 
@@ -97,7 +89,7 @@ new_parsed_chr_pre_release_ids <- function(
       c(
         `!` = "Invalid pre-release ids detected, setting to {.code NA}.",
         x = "Problematic values: {.val {x[invalid]}}",
-        i = "Pre-release ids must match the pattern: {.val {PRE_RELEASE_IDS_PATTERN}}"
+        i = "Pre-release ids must match the pattern: {.str ^{PRE_RELEASE_IDS_PATTERN}$}"
       ),
       call = call
     )
@@ -155,7 +147,7 @@ new_parsed_chr_build_metadata <- function(
 ) {
   x <- vec_cast(x, character())
 
-  invalid <- !grepl(BUILD_METADATA_PATTERN, x, perl = TRUE) &
+  invalid <- !grepl(sprintf("^%s$", BUILD_METADATA_PATTERN), x, perl = TRUE) &
     !is.na(x) &
     nzchar(x)
 
@@ -164,7 +156,7 @@ new_parsed_chr_build_metadata <- function(
       c(
         `!` = "Invalid build metadata detected, setting to {.code NA}.",
         x = "Problematic values: {.val {x[invalid]}}",
-        i = "Build metadata should have the pattern: {.str {BUILD_METADATA_PATTERN}}"
+        i = "Build metadata should have the pattern: {.str ^{BUILD_METADATA_PATTERN}$}"
       ),
       call = call
     )

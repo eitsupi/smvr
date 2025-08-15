@@ -73,7 +73,7 @@
       Warning in `smvr()`:
       ! Invalid build metadata detected, setting to `NA`.
       x Problematic values: "@foo"
-      i Build metadata should have the pattern: "^([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)$"
+      i Build metadata should have the pattern: "^([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*)$"
     Output
       <smvr[4]>
       [1] 1.0.0+foo     1.0.0+bar.baz <NA>          <NA>         

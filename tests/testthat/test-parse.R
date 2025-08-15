@@ -19,10 +19,17 @@ test_that("parse_semver rejects invalid semver strings", {
   expect_snapshot(parse_semver("01.2.3"))
   expect_snapshot(parse_semver("1.02.3"))
   expect_snapshot(parse_semver("1.2.03"))
+  expect_snapshot(parse_semver("1.2.3-alpha.01"))
 })
 
 test_that("parse_pre_release_ids rejects invalid pre-release identifiers", {
-  expect_snapshot(parse_pre_release_ids(c("alpha..beta", "..", "--", "1.2.3.")))
+  expect_snapshot(parse_pre_release_ids(c(
+    "alpha..beta",
+    "..",
+    "--",
+    "1.2.3.",
+    "1.01.100"
+  )))
 })
 
 test_that("Supports more than 5 pre-release identifiers", {
