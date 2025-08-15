@@ -1,4 +1,4 @@
-# digits starts with 0 should not allowed
+# digits starting with 0 should not be allowed
 
     Code
       new_pre_release_identifier(c("0", "01", "10"))
