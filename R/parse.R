@@ -8,7 +8,7 @@
 parse_semver <- function(x) {
   x <- vec_cast(x, character(), call = caller_env())
 
-  pattern <- SEM_VER_PATTERN
+  pattern <- sprintf("^%s$", SEM_VER_PATTERN)
   parts <- regmatches(x, regexec(pattern, x))
 
   invalid <- lengths(parts) == 0L & !is.na(x)
