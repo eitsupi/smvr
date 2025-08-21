@@ -1,5 +1,7 @@
 # smvr (development version)
 
+# smvr 0.2.1
+
 ## Bug fixes
 
 - Numeric only pre-release identifiers starting with 0 (e.g., `01`) are no longer allowed,
