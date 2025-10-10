@@ -29,6 +29,6 @@ reference:
       - check-component
       - extract-component
       - update-version
-  - title: Musics
+  - title: Miscellaneous
     contents:
       - SEM_VER_PATTERN
