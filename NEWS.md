@@ -1,5 +1,7 @@
 # smvr (development version)
 
+# smvr 0.2.2
+
 ## New features
 
 - `SEM_VER_PATTERN`, which is a suggested regular expression (RegEx) to check a SemVer string (#33).
