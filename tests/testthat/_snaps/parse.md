@@ -77,6 +77,30 @@
       <smvr[1]>
       [1] <NA>
 
+---
+
+    Code
+      parse_semver("1.２.3")
+    Condition
+      Warning:
+      ! Invalid version strings detected, setting to `NA`.
+      x Problematic values: "1.２.3"
+    Output
+      <smvr[1]>
+      [1] <NA>
+
+---
+
+    Code
+      parse_semver("1２.3.4")
+    Condition
+      Warning:
+      ! Invalid version strings detected, setting to `NA`.
+      x Problematic values: "1２.3.4"
+    Output
+      <smvr[1]>
+      [1] <NA>
+
 # parse_pre_release_ids rejects invalid pre-release identifiers
 
     Code
