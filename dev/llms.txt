@@ -1,0 +1,153 @@
+# smvr
+
+Simple implementation of [Semantic Versioning
+2.0.0](https://semver.org/) on R.
+
+smvr provides a lightweight, fully vectorized R class for Semantic
+Versioning. It enables type-safe manipulation, comparison, and sorting
+of version numbers, and integrates smoothly with tidyverse tools.
+
+## Installation
+
+Install the latest release version from CRAN:
+
+``` r
+
+install.packages("smvr")
+```
+
+The development version can be installed from GitHub:
+
+``` r
+
+pak::pak("eitsupi/smvr")
+```
+
+## Example
+
+``` r
+
+library(smvr)
+
+# Parse version characters into smvr objects
+v <- parse_semver(c("1.0.0", "1.0.0-alpha.2", "1.0.0-alpha.10", "1.0.1+20250621", "0.9.0"))
+
+# Sort versions
+sort(v)
+#> <smvr[5]>
+#> [1] 0.9.0          1.0.0-alpha.2  1.0.0-alpha.10 1.0.0          1.0.1+20250621
+
+# Can compare with string notation
+v["1.0.0-alpha" < v & v < "1.0.0"]
+#> <smvr[2]>
+#> [1] 1.0.0-alpha.2  1.0.0-alpha.10
+
+# Works with tibble data frame and dplyr
+tibble::tibble(version = v) |>
+  dplyr::arrange(version) |>
+  dplyr::mutate(
+    `>= 1.0.0` = version >= "1.0.0",
+    `pre-release` = is_pre_release(version),
+  )
+#> # A tibble: 5 × 3
+#>          version `>= 1.0.0` `pre-release`
+#>           <smvr> <lgl>      <lgl>        
+#> 1          0.9.0 FALSE      FALSE        
+#> 2  1.0.0-alpha.2 FALSE      TRUE         
+#> 3 1.0.0-alpha.10 FALSE      TRUE         
+#> 4          1.0.0 TRUE       FALSE        
+#> 5 1.0.1+20250621 TRUE       FALSE
+```
+
+## Features
+
+- Fully vectorized Semantic Versioning class.
+- Type-safe comparison and sorting.
+- Tidyverse compatibility ([tibble](https://tibble.tidyverse.org/),
+  [dplyr](https://dplyr.tidyverse.org), etc.).
+- No dependencies except [vctrs](https://vctrs.r-lib.org/).
+
+## Related Works
+
+- The numeric version class vector can be crated with
+  [`numeric_version()`](https://rdrr.io/r/base/numeric_version.html) in
+  base R works well for versions that only have MAJOR.MINOR.PATCH. But
+  it does not support pre-release identifiers of SemVer, so in the case
+  of including pre-release versions, it is not suitable.
+- The [semver](https://CRAN.R-project.org/package=semver) package is a
+  wrapper for a C++ SemVer parser. The class provided by this package is
+  a special list, which does not work well with
+  [tibble](https://tibble.tidyverse.org/) and
+  [dplyr](https://dplyr.tidyverse.org).
+- The [semverutils](https://CRAN.R-project.org/package=semverutils)
+  package has a SemVer parser written in R. It creates a single version
+  as an [R6](https://r6.r-lib.org) object, which is not vectorized.
+  Also, at the moment (version 0.1.0, published 2020-02-22 on CRAN), it
+  has a bug in comparing pre-release versions[^1], so it does not work
+  correctly.
+
+[^1]: <https://github.com/ajwtech/semverutils/issues/2>
+
+# Package index
+
+## Vector classes
+
+Constructor functions and parser functions for the vector classes
+represent the SemVer versioning scheme.
+
+### SemVer
+
+The `smvr` class represents versions.
+
+- [`smvr()`](https://eitsupi.github.io/smvr/dev/reference/smvr.md)
+  [`parse_semver()`](https://eitsupi.github.io/smvr/dev/reference/smvr.md)
+  : A vector representing versions following Semantic Versioning
+
+### Pre-release identifier components
+
+`pre_release_ids` and `pre_release_identifier` are used to represent
+pre-release identifiers in versions.
+
+- [`new_pre_release_ids()`](https://eitsupi.github.io/smvr/dev/reference/pre_release_ids.md)
+  [`parse_pre_release_ids()`](https://eitsupi.github.io/smvr/dev/reference/pre_release_ids.md)
+  : Pre-release identifiers
+- [`new_pre_release_identifier()`](https://eitsupi.github.io/smvr/dev/reference/pre_release_identifier.md)
+  : Single pre-release identifier
+
+## Manipulation
+
+- [`as_smvr()`](https://eitsupi.github.io/smvr/dev/reference/as_smvr.md)
+  :
+
+  Convert to `smvr` vector
+
+- [`is_smvr()`](https://eitsupi.github.io/smvr/dev/reference/is_smvr.md)
+  :
+
+  Check if an object is a `smvr` object
+
+- [`is_pre_release()`](https://eitsupi.github.io/smvr/dev/reference/check-component.md)
+  [`has_build_metadata()`](https://eitsupi.github.io/smvr/dev/reference/check-component.md)
+  :
+
+  Check if the `smvr` object has a specific component
+
+- [`extract_major()`](https://eitsupi.github.io/smvr/dev/reference/extract-component.md)
+  [`extract_minor()`](https://eitsupi.github.io/smvr/dev/reference/extract-component.md)
+  [`extract_patch()`](https://eitsupi.github.io/smvr/dev/reference/extract-component.md)
+  [`extract_pre_release_ids()`](https://eitsupi.github.io/smvr/dev/reference/extract-component.md)
+  [`extract_build_metadata()`](https://eitsupi.github.io/smvr/dev/reference/extract-component.md)
+  : Extract each component of version numbers/labels
+
+- [`increment_major()`](https://eitsupi.github.io/smvr/dev/reference/update-version.md)
+  [`increment_minor()`](https://eitsupi.github.io/smvr/dev/reference/update-version.md)
+  [`increment_patch()`](https://eitsupi.github.io/smvr/dev/reference/update-version.md)
+  [`mark_as_pre_release()`](https://eitsupi.github.io/smvr/dev/reference/update-version.md)
+  [`add_build_metadata()`](https://eitsupi.github.io/smvr/dev/reference/update-version.md)
+  : Update version components
+
+## Miscellaneous
+
+- [`SEM_VER_PATTERN`](https://eitsupi.github.io/smvr/dev/reference/SEM_VER_PATTERN.md)
+  : A suggested regular expression (RegEx) to check a SemVer string
+
